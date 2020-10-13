@@ -12,7 +12,7 @@ limitations under the License.
 */
 
 const ImmudbLcClient = require("../lib/client")
-const util = require("util/dotenv_alert")
+const util = require("./lib/util")
 const _root = require('./lib/root')
 
 try {
