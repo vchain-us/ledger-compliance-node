@@ -995,7 +995,7 @@ var ImmuServiceService = exports.ImmuServiceService = {
     responseDeserialize: deserialize_immudb_schema_KVList,
   },
   // todo(joe-dz): Enable restore when the feature is required again
-//  rpc Restore(stream KVList) returns (ItemsCount) {}
+// 	rpc Restore(stream KVList) returns (ItemsCount) {}
 //
 createDatabase: {
     path: '/immudb.schema.ImmuService/CreateDatabase',

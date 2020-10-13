@@ -1,7 +1,7 @@
 {
-  "name": "immudb-node",
-  "version": "1.0.6",
-  "description": "Node js client for immudb",
+  "name": "ledger-compliance-node",
+  "version": "0.1",
+  "description": "Node SDK for codenotary Ledger Compliance",
   "directories": {
     "lib": "lib",
     "test": "test"
@@ -10,7 +10,7 @@
   "scripts": {
     "test": "./test/test.sh"
   },
-  "author": "",
+  "author": "vChain",
   "license": "ISC",
   "devDependencies": {
     "grpc-tools": "1.9.1",
@@ -19,12 +19,13 @@
   },
   "dependencies": {
     "btoa": "1.2.1",
+    "dotenv": "^8.2.0",
     "google-protobuf": "3.13.0",
     "grpc": "1.24.3"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/codenotary/immudb-node.git"
+    "url": "https://github.com/vchain-us/ledger-compliance-node.git"
   },
   "tap": {
     "nyc-arg": [
@@ -36,6 +37,7 @@
     "cryptography",
     "merkle-proof",
     "verifiable",
-    "tamperproof"
+    "tamperproof",
+    "ledger-compliance"
   ]
 }

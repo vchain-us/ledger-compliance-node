@@ -1,13 +1,16 @@
 const fs = require('fs')
 const process = require('process')
 
-const messages = require('../proto/build/schema_pb')
+const messages = require('../../proto/build/schema_pb')
+
+const CUSTOM_ROOT = '__CUSTOM ROOT__:'
 
 let root = {}
 let rootPath
 
 const exitHandler = () => {
   if (rootPath) {
+    console.log(`${CUSTOM_ROOT} exitHandler`)
     let data = JSON.stringify(root)
     fs.writeFileSync(rootPath, data)
   }
@@ -19,6 +22,7 @@ process.on('uncaughtException', exitHandler)
 
 module.exports = {
   set: (params) => {
+    console.log(`${CUSTOM_ROOT} set`)
     try {
         const rootPb = new messages.RootIndex()
         rootPb.setIndex(params.index)
@@ -39,6 +43,7 @@ module.exports = {
 
   get: (params) => {
     try {
+        console.log(`${CUSTOM_ROOT} get`)
         let serverRoot = root[params.server]
         if (!serverRoot) {
             return {
@@ -73,6 +78,7 @@ module.exports = {
 },
 
   setRootPath: (params) => {
+    console.log(`${CUSTOM_ROOT} setRootPath`)
     try {
         rootPath = params.path
 
@@ -90,6 +96,7 @@ module.exports = {
   },
 
   commit: () => {
+    console.log(`${CUSTOM_ROOT} commit`)
     try {
         let data = JSON.stringify(root)
         fs.writeFileSync(rootPath, data)
