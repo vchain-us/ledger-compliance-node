@@ -47,7 +47,7 @@ To obtain a valid apikey please register on ledger compliance frontend, create a
 
 Just include immudb-node as a dependency in your project:
 ```
-const ImmudbClient = require('immudb-node')
+const ImmudbLcClient = require('ledger-compliance-node')
 ```
 
 ## Quickstart
