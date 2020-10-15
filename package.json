@@ -1,6 +1,6 @@
 {
   "name": "ledger-compliance-node",
-  "version": "0.1",
+  "version": "0.1.1",
   "description": "Node SDK for codenotary Ledger Compliance",
   "directories": {
     "lib": "lib",
@@ -18,10 +18,12 @@
     "tap": "14.10.8"
   },
   "dependencies": {
+    "async-lock": "^1.2.4",
     "btoa": "1.2.1",
     "dotenv": "^8.2.0",
     "google-protobuf": "3.13.0",
-    "grpc": "1.24.3"
+    "grpc": "1.24.3",
+    "js-sha256": "^0.9.0"
   },
   "repository": {
     "type": "git",
