@@ -14,8 +14,6 @@ limitations under the License.
 const ImmudbLcClient = require("../lib/client")
 const util = require("./lib/util")
 
-const prefix = 'scan-and-history'
-
 try {
   util.dotenvAlert()
 
@@ -33,26 +31,31 @@ async function main(err, cl) {
     return console.error(err)
   }
 
+  async function operation(n) {
+    try {
+      let res = null
+      let indexes = []
+      for (var i=0; i < n; i++) {
+        res = await cl.safeSet({ key: `concurrentKey${i}`, value: `concurrentVal${i}` })
+        res && res.index && indexes.push(res.index)
+        res = await cl.safeGet({ key: `concurrentKey${i}` })
+      }
+      return indexes
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
   try {
-    let res = null
-
-    // safe set 1
-    res = await cl.safeSet({ key: `${prefix}-key1`, value: `${prefix}-val1` })
-
-    // safe set 2
-    res = await cl.safeSet({ key: `${prefix}-key2`, value: `${prefix}-val2` })
-    
-    // safe set 3
-    res = await cl.safeSet({ key: `${prefix}-key2`, value: `${prefix}-val3` })    
-
-    // scan
-    res = await cl.scan({ keyPrefix: `${prefix}-key` })
-    console.log(`${prefix}: scan result value`, res)
-
-    // history
-    res = await cl.history({ key: `${prefix}-key2` })
-    console.log(`${prefix}: history result value`, res)    
-
+    Promise.all([
+      operation(10),
+      operation(7),
+      operation(13),
+    ]).then(([indexes1, indexes2, indexes3]) => {
+      console.log(indexes1)
+      console.log(indexes2)
+      console.log(indexes3)
+    }).catch((err) => console.log(err))
   } catch (err) {
     console.error(err)
   }

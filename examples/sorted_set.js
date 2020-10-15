@@ -14,13 +14,15 @@ limitations under the License.
 const ImmudbLcClient = require("../lib/client")
 const util = require("./lib/util")
 
+const prefix = 'sorted'
+
 try {
   util.dotenvAlert()
   
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: 'examples/rootfile'
+      rootPath: 'examples/root.json',
   }, main)
 } catch (err) {
   console.error(err)
@@ -32,28 +34,28 @@ async function main(err, cl) {
   }
 
   try {
-    // set 1
-    res = await cl.set({ key: 'key1', value: 'val1' })
-    console.log(`set result index: ${res.index}`)
+    let res = null
 
-    res = await cl.set({ key: 'key2', value: 'val2' })
-    console.log(`set result index: ${res.index}`)
-
-    res = await cl.set({ key: 'key3', value: 'val3' })
-    console.log(`set result index: ${res.index}`)
-
-    // safeZAdd 1
-    res = await cl.safeZAdd({ set: 'my-sorted-set', score: 5, key: 'key1' })
+    for (var i=0; i < 3; i++) {
+      res = await cl.safeSet({ key: `${prefix}-key${i}`, value: `${prefix}-val${i}` })
+      console.log(`${prefix}: set result index`, res.index)
+    }
     
+    // safeZAdd 1
+    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 5.0, key: `${prefix}-key1` })
+    console.log(`${prefix}: safeZAdd result index`, res.index)
+
     // safeZAdd 2
-    res = await cl.safeZAdd({ set: 'my-sorted-set', score: 99, key: 'key3' })
+    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 99.0, key: `${prefix}-key3` })
+    console.log(`${prefix}: safeZAdd result index`, res.index)
 
     // safeZAdd 3
-    res = await cl.safeZAdd({ set: 'my-sorted-set', score: 1, key: 'key2' })
+    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 1.0, key: `${prefix}-key2` })
+    console.log(`${prefix}: safeZAdd result index`, res.index)
     
     // zScan
-    res = await cl.zScan({ set: 'my-sorted-set' })
-    console.log(`zScan list: ${res.index}`)    
+    res = await cl.zScan({ set: `my-${prefix}-set` })
+    console.log(`${prefix}: zScan list: ${res.index}`)    
 
   } catch (err) {
     console.error(err)

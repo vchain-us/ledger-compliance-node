@@ -15,13 +15,15 @@ const ImmudbLcClient = require("../lib/client")
 const util = require("./lib/util")
 const _root = require('./lib/root')
 
+const prefix = 'custom-root'
+
 try {
   util.dotenvAlert()
 
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: 'examples/rootfile',
+      rootPath: 'examples/root.json',
       rootService: _root
   }, main)
 } catch (err) {
@@ -34,21 +36,15 @@ async function main(err, cl) {
   }
 
   try {
-    // set
-    res = await cl.set({ key: 'hello', value: 'world' })
-    console.log(`set result index: ${res.index}`)
-
-    // // get
-    res = await cl.get({ key: 'hello' })
-    console.log('get result value:', res)
+    let res = null
 
     // safe set
-    res = await cl.safeSet({ key: 'safeHello', value: 'safeWorld' })
-    console.log(`safe set result index: ${res.index}`)
+    res = await cl.set({ key: `${prefix}-safe-key`, value: `${prefix}-safe-val` })
+    console.log(`${prefix}: safeSet result index ${res.index}`)
 
     // safe get
-    res = await cl.safeGet({ key: 'safe-hello' })
-    console.log('safe get result value:', res)
+    res = await cl.get({ key: `${prefix}-safe-key` })
+    console.log(`${prefix}: safeGet result value`, res)
 
   } catch (err) {
     console.error(err)
