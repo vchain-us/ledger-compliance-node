@@ -1,10 +1,10 @@
-# immudb-node [![License](https://img.shields.io/github/license/codenotary/immudb-node)](LICENSE)
+# ledger compliance nodejs sdk [![License](https://img.shields.io/github/license/codenotary/immudb-node)](LICENSE)
 
 [![Slack](https://img.shields.io/badge/join%20slack-%23immutability-brightgreen.svg)](https://slack.vchain.us/) [![Discuss at immudb@googlegroups.com](https://img.shields.io/badge/discuss-immudb%40googlegroups.com-blue.svg)](https://groups.google.com/group/immudb)
 
-### Official [immudb] client for nodejs.
+### Official [ledger compliance] client for nodejs.
 
-[immudb]: https://immudb.io/
+[ledger compliance]: https://tobedefined.io/
 
 
 ## Contents
@@ -12,22 +12,18 @@
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-- [Supported Versions](#supported-versions)
 - [Quickstart](#quickstart)
-- [Step by step guide](#step-by-step-guide)
   * [Creating a Client](#creating-a-client)
-  * [User sessions](#user-sessions)
-  * [Creating a database](#creating-a-database)
-  * [Setting the active database](#setting-the-active-database)
   * [Traditional read and write](#traditional-read-and-write)
   * [Verified or Safe read and write](#verified-or-safe-read-and-write)
-  * [Multi-key read and write](#multi-key-read-and-write)
-  * [Closing the client](#creating-a-database)
+  * [Closing the client](#closing-the-client)
 - [Contributing](#contributing)
 
 ## Introduction
 
-immudb-node implements a [grpc] immudb client. A minimalist API is exposed for applications while cryptographic verifications and state update protocol implementation are fully implemented by this client.  Latest validated immudb state may be keep in the local filesystem when initialising the client with the rootPath option, please read [immudb research paper] for details of how immutability is ensured by [immudb].
+Ledger compliance nodejs sdj implements a [grpc] ledger compliance client.
+Backed by [immudb](https://github.com/codenotary/immudb) it uses several common part that are implemented in the immudb go sdk, but simplifying it more.
+Latest validated ledger state may be keep in the local filesystem when initialising the client with the rootPath option, please read [immudb research paper] for details of how immutability is ensured by [immudb].
 
 [grpc]: https://grpc.io/
 [immudb research paper]: https://immudb.io/
@@ -35,8 +31,17 @@ immudb-node implements a [grpc] immudb client. A minimalist API is exposed for a
 
 ## Prerequisites
 
-immudb-node assumes an already running immudb server. Running `immudb` is quite simple, please refer to the
-following link for downloading and running it: https://docs.immudb.io/quickstart.html
+Ledger compliance nodejs sdk assumes an already running ledger server.
+
+Before starting an .env file with the following settings is required
+
+```
+LEDGER_COMPLIANCE_ADDRESS=<ledger_compliance_url>
+LEDGER_COMPLIANCE_PORT=3324
+LEDGER_COMPLIANCE_API_KEY=<ledger_compliance_api_key>
+```
+
+To obtain a valid apikey please register on ledger compliance frontend, create a new ledger and retrieve the apikey after following creation wizard.
 
 ## Installation
 
@@ -45,19 +50,10 @@ Just include immudb-node as a dependency in your project:
 const ImmudbClient = require('immudb-node')
 ```
 
-## Supported Versions
-
-immudb-node supports the [latest immudb release].
-
-[latest immudb release]: https://github.com/codenotary/immudb/releases/tag/v0.8.0
-
 ## Quickstart
 
-Check out some [examples]
+Example can be found in the [example folder](/examples)
 
-[examples]: https://github.com/codenotary/immudb-node/tree/master/examples/
-
-## Step by step guide
 
 ### Creating a Client
 
@@ -65,72 +61,24 @@ The following code snippets shows how to create a client.
 
 Using default configuration:
 ```
-const config = {
-  address: '127.0.0.1:3322',
-  rootPath: '.',
-}
-
-ImmudbClient(config, (err, cl) => {
+ImmudbClient({
+  address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
+  apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
+  rootPath: 'root.json'
+}, (err, cl) => {
   if (err) {
     return console.log(err)
   }
 
   // Interact with the client.
+  res = await cl.safeSet({ key: 'key', value: 'val' })
+  console.log('safeSet result index', res.index)  
 })
-```
-
-### User sessions
-
-Use `login` and `logout` methods to initiate and terminate user sessions:
-
-```
-try {
-  await cl.login({ username: 'usr1', password: 'pwd1' })
-
-  // Interact with immudb using logged user.
-
-  await cl.logout()
-} catch (err) {
-  console.log(err)
-}
-```
-
-Or with callbacks
-```
-cl.login({ username: 'usr1', password: 'pwd1' }, (err, res) => {
-  if (err) {
-    return console.log(err)
-  }
-
-  // Interact with immudb using logged user.
-
-  cl.logout(null, (err, res) => {
-    if (err) {
-      return console.log(err)
-    })
-    // Logged out.
-})
-```
-
-### Creating a database
-
-Creating a new database is quite simple:
-
-```
-cl.createDatabase('db1')
-```
-
-### Setting the active database
-
-Specify the active database with:
-
-```
-cl.useDatabase('db1')
 ```
 
 ### Traditional read and write
 
-immudb provides read and write operations that behave as a traditional
+Ledger compliance provides read and write operations that behave as a traditional
 key-value store i.e. no cryptographic verification is done. This operations
 may be used when validations can be post-poned:
 
@@ -144,9 +92,7 @@ console.log(res.key, res.value, res.index)
 
 ### Verified or Safe read and write
 
-immudb provides built-in cryptographic verification for any entry. The client
-implements the mathematical validations while the application uses as a traditional
-read or write operation:
+Ledger compliance provides built-in cryptographic verification for any entry. The client implements the mathematical validations while the application uses as a traditional read or write operation:
 
 ```
 try {
@@ -162,49 +108,15 @@ try {
   console.log(err)
 }
 ```
-
-### Multi-key read and write
-
-Transactional multi-key read and write operations are supported by immudb and immudb-node.
-
-Atomic multi-key write (all entries are persisted or none):
-
-```
-  req = {
-    skvList: [{
-      key: 'key1',
-      payload: 'value1',
-      timestamp: Math.floor(Date.now()/100),
-    },{
-      key: 'key2',
-      payload: 'value2',
-      timestamp: Math.floor(Date.now()/100),
-    }]
-  }
-  res = await cl.setBatchSV(req)
-```
-
-Atomic multi-key read (all entries are retrieved or none):
-```
-    req = {
-      keys: [{
-        key: 'key1',
-      },{
-        key: 'key2',
-      }],
-    }
-    res = await cl.getBatchSV(req)
-```
-
 ### Closing the client
 
-To programatically close the connection with immudb server use the `shutdown` operation:
+To programatically close the connection with ledger server use the `shutdown` operation:
  
  ```
  cl.shutdown()
  ```
 
-Note: after shutdown, a new client needs to be created to establish a new connection.
+Note: after shutdown, a new client needs to be created to estabilish a new connection.
 
 ## Contributing
 
