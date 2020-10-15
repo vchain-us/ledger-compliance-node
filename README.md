@@ -61,7 +61,7 @@ The following code snippets shows how to create a client.
 
 Using default configuration:
 ```
-ImmudbClient({
+ImmudbLcClient({
   address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
   apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
   rootPath: 'root.json'
