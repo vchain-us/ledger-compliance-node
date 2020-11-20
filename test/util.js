@@ -16,6 +16,28 @@ tap.test('utf8 decode', (t) => {
   t.end()
 })
 
+tap.test('promisify and lock method, reject', async t => {
+    const errorMethod = function () {
+        return error
+      }
+  
+      try {
+        req = { param1: 'param1'}
+        await util.asyncifyMethod(errorMethod)
+          .then(
+              () => {
+                assert.fail('Should not resolve')
+                t.end()
+              }, 
+              () => {
+                assert.ok('Should fail')
+                t.end()
+              });
+      } catch (err) {
+        t.end()
+      }
+    })
+
 tap.test('equal array', (t) => {
   t.true(util.equalArray([0], [0]))
   t.true(util.equalArray([0,1], [0,1]))
