@@ -20,11 +20,14 @@ try {
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: 'examples/root.json',
+      rootPath: './root.json',
   }, main)
 } catch (err) {
   console.error(err)
 }
+
+const rand = '' + Math.floor(Math.random()
+  * Math.floor(100000))
 
 async function main(err, cl) {
   if (err) {
@@ -36,9 +39,11 @@ async function main(err, cl) {
       let res = null
       let indexes = []
       for (var i=0; i < n; i++) {
-        res = await cl.safeSet({ key: `concurrentKey${i}`, value: `concurrentVal${i}` })
+        req = { key: `${rand}-${i}`, value: `${rand}-${i}` }
+        res = await cl.safeSet(req)
         res && res.index && indexes.push(res.index)
-        res = await cl.safeGet({ key: `concurrentKey${i}` })
+        req = { key: `${rand}-${i}` }
+        res = await cl.safeGet(req)
       }
       return indexes
     } catch (err) {
@@ -57,6 +62,6 @@ async function main(err, cl) {
       console.log(indexes3)
     }).catch((err) => console.log(err))
   } catch (err) {
-    console.error(err)
+    console.error('ERROR, example:concurrency', err)
   }
 }

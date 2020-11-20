@@ -14,19 +14,20 @@ limitations under the License.
 const ImmudbLcClient = require("../lib/client")
 const util = require("./lib/util")
 
-const prefix = 'hello-world'
-
 try {
   util.dotenvAlert()
 
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: 'examples/root.json',
+      rootPath: './root.json',
   }, main)
 } catch (err) {
   console.error(err)
 }
+
+const rand = '' + Math.floor(Math.random()
+  * Math.floor(100000))
 
 async function main(err, cl) {
   if (err) {
@@ -37,22 +38,30 @@ async function main(err, cl) {
     let res = null
 
     // set
-    res = await cl.set({ key: `${prefix}-key`, value: `${prefix}-val` })
-    console.log(`${prefix}: set result index`, res.index)
+    req = { key: `${rand}`, value: `${rand}` }
+    res = await cl.set(req)
+    console.log('success: set', res.index)
 
     // // get
-    res = await cl.get({ key: `${prefix}-key` })
-    console.log(`${prefix}: get result value`, res)
+    req = { key: `${rand}` }
+    res = await cl.get(req)
+    console.log('success: get', res)
 
     // safe set
-    res = await cl.safeSet({ key: `${prefix}-safe-key`, value: `${prefix}-safe-val` })
-    console.log(`${prefix}: safeSet result index`, res.index)
+    req = { key: `${rand}-safe`, value: `${rand}-safe` }
+    res = await cl.safeSet(req)
+    console.log('success: safeSet', res.index)
 
     // safe get
-    res = await cl.safeGet({ key: `${prefix}-safe-key` })
-    console.log(`${prefix}: safeGet result value`, res)
+    req = { key: `${rand}-safe` }
+    res = await cl.safeGet(req)
+    console.log('success: safeGet', res)
+
+    // get current root info
+    res = await cl.currentRoot()
+    console.log('success: currentRoot', res)
 
   } catch (err) {
-    console.error(err)
+    console.error('ERROR, example:hello_world', err)
   }
 }

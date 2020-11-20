@@ -14,19 +14,20 @@ limitations under the License.
 const ImmudbLcClient = require("../lib/client")
 const util = require("./lib/util")
 
-const prefix = 'sorted'
-
 try {
   util.dotenvAlert()
   
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: 'examples/root.json',
+      rootPath: './root.json',
   }, main)
 } catch (err) {
   console.error(err)
 }
+
+const rand = '' + Math.floor(Math.random()
+  * Math.floor(100000))
 
 async function main(err, cl) {
   if (err) {
@@ -37,27 +38,27 @@ async function main(err, cl) {
     let res = null
 
     for (var i=0; i < 3; i++) {
-      res = await cl.safeSet({ key: `${prefix}-key${i}`, value: `${prefix}-val${i}` })
-      console.log(`${prefix}: set result index`, res.index)
+      res = await cl.safeSet({ key: `${rand}-${i}`, value: `${rand}-${i}` })
+      console.log('success: safeSet', res.index)
     }
     
     // safeZAdd 1
-    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 5.0, key: `${prefix}-key1` })
-    console.log(`${prefix}: safeZAdd result index`, res.index)
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 5.0, key: `${rand}-1` })
+    console.log('success" safeZAdd', res.index)
 
     // safeZAdd 2
-    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 99.0, key: `${prefix}-key3` })
-    console.log(`${prefix}: safeZAdd result index`, res.index)
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 99.0, key: `${rand}-3` })
+    console.log('success" safeZAdd', res.index)
 
     // safeZAdd 3
-    res = await cl.safeZAdd({ set: `my-${prefix}-set`, score: 1.0, key: `${prefix}-key2` })
-    console.log(`${prefix}: safeZAdd result index`, res.index)
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 1.0, key: `${rand}-2` })
+    console.log('success" safeZAdd', res.index)
     
     // zScan
-    res = await cl.zScan({ set: `my-${prefix}-set` })
-    console.log(`${prefix}: zScan list: ${res.index}`)    
+    res = await cl.zScan({ set: `${rand}-set` })
+    console.log('success" safeZAdd', res.index)    
 
   } catch (err) {
-    console.error(err)
+    console.error('ERROR, example:sorted_set', err)
   }
 }

@@ -16,7 +16,7 @@ const util = require("./lib/util")
 
 try {
   util.dotenvAlert()
-
+  
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
@@ -28,46 +28,32 @@ try {
 
 const rand = '' + Math.floor(Math.random()
   * Math.floor(100000))
-
+ 
 async function main(err, cl) {
   if (err) {
-    return console.error(err)
+    return console.log(err)
   }
 
   try {
-    let res = null
+    const batchSize = 1
 
-    // safe set 1
-    req = { key: `${rand}-1`, value: `${rand}-1` }
-    res = await cl.safeSet(req)
-    console.log('success: safeSet', res && res.index)
-
-    // safe set 2
-    req = { key: `${rand}-2`, value: `${rand}-2` }
-    res = await cl.safeSet(req)
-    console.log('success: safeSet', res && res.index)
-    
-    // safe set 3
-    req = { key: `${rand}-2`, value: `${rand}-3` }
-    res = await cl.safeSet(req)    
-    console.log('success: safeSet', res && res.index)
-
-    // scan
-    req = { keyPrefix: rand }
-    res = await cl.scan(req)
-    console.log('success: scan', res)
-
-    // history
-    req = {
-        keyPrefix: `${rand}-2`,
-        offset: 0,
-        limit: 1,
-        reverse: false
+    // execute a batch insert
+    req = { keys: [] }
+    for (let i = 0; i < batchSize; i++) {
+      req.keys.push({ key: `${rand}-${i}`, value: `${rand}-${i}` })
     }
-    res = await cl.history(req)
-    console.log('succes: history', res)    
+    res = await cl.setBatch(req)
+    console.log(`success: setBatch`, res)
 
+    // execute a batch read
+    req = { keys: [] }
+    for (let i = 0; i < batchSize; i++) {
+      req.keys.push({ key: `${rand}-${i}` })
+    }
+    res = await cl.getBatch(req)
+    console.log(`success: getBatch`, res)
+ 
   } catch (err) {
-    console.error('ERROR, example:scan_and_history', err)
+    console.log('ERROR, example:batch_operations', err)
   }
 }
