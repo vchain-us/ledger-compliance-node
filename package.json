@@ -1,6 +1,6 @@
 {
   "name": "ledger-compliance-node",
-  "version": "0.1.4",
+  "version": "0.1.7",
   "description": "Node SDK for codenotary Ledger Compliance",
   "directories": {
     "lib": "lib",
