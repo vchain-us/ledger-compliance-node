@@ -28,7 +28,7 @@ try {
 
 const rand = '' + Math.floor(Math.random()
   * Math.floor(100000))
- 
+
 async function main(err, cl) {
   if (err) {
     return console.log(err)
