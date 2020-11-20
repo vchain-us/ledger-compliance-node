@@ -1,10 +1,11 @@
 // GENERATED CODE -- DO NOT EDIT!
 
 'use strict';
-var grpc = require('grpc');
+var grpc = require('@grpc/grpc-js');
 var lc_pb = require('./lc_pb.js');
 var schema_pb = require('./schema_pb.js');
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
 function serialize_google_protobuf_Empty(arg) {
   if (!(arg instanceof google_protobuf_empty_pb.Empty)) {
@@ -26,6 +27,17 @@ function serialize_immudb_schema_HealthResponse(arg) {
 
 function deserialize_immudb_schema_HealthResponse(buffer_arg) {
   return schema_pb.HealthResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_immudb_schema_HistoryOptions(arg) {
+  if (!(arg instanceof schema_pb.HistoryOptions)) {
+    throw new Error('Expected argument of type immudb.schema.HistoryOptions');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_HistoryOptions(buffer_arg) {
+  return schema_pb.HistoryOptions.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_immudb_schema_Index(arg) {
@@ -61,6 +73,17 @@ function deserialize_immudb_schema_ItemList(buffer_arg) {
   return schema_pb.ItemList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_immudb_schema_KVList(arg) {
+  if (!(arg instanceof schema_pb.KVList)) {
+    throw new Error('Expected argument of type immudb.schema.KVList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_KVList(buffer_arg) {
+  return schema_pb.KVList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_immudb_schema_Key(arg) {
   if (!(arg instanceof schema_pb.Key)) {
     throw new Error('Expected argument of type immudb.schema.Key');
@@ -70,6 +93,17 @@ function serialize_immudb_schema_Key(arg) {
 
 function deserialize_immudb_schema_Key(buffer_arg) {
   return schema_pb.Key.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_immudb_schema_KeyList(arg) {
+  if (!(arg instanceof schema_pb.KeyList)) {
+    throw new Error('Expected argument of type immudb.schema.KeyList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_KeyList(buffer_arg) {
+  return schema_pb.KeyList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_immudb_schema_KeyValue(arg) {
@@ -171,6 +205,17 @@ function deserialize_immudb_schema_ZAddOptions(buffer_arg) {
   return schema_pb.ZAddOptions.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_immudb_schema_ZItemList(arg) {
+  if (!(arg instanceof schema_pb.ZItemList)) {
+    throw new Error('Expected argument of type immudb.schema.ZItemList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_ZItemList(buffer_arg) {
+  return schema_pb.ZItemList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_immudb_schema_ZScanOptions(arg) {
   if (!(arg instanceof schema_pb.ZScanOptions)) {
     throw new Error('Expected argument of type immudb.schema.ZScanOptions');
@@ -193,6 +238,17 @@ function deserialize_lc_schema_Data(buffer_arg) {
   return lc_pb.Data.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_lc_schema_ItemExtList(arg) {
+  if (!(arg instanceof lc_pb.ItemExtList)) {
+    throw new Error('Expected argument of type lc.schema.ItemExtList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_ItemExtList(buffer_arg) {
+  return lc_pb.ItemExtList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_lc_schema_ReportOptions(arg) {
   if (!(arg instanceof lc_pb.ReportOptions)) {
     throw new Error('Expected argument of type lc.schema.ReportOptions');
@@ -213,6 +269,28 @@ function serialize_lc_schema_Response(arg) {
 
 function deserialize_lc_schema_Response(buffer_arg) {
   return lc_pb.Response.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_lc_schema_SafeItemExt(arg) {
+  if (!(arg instanceof lc_pb.SafeItemExt)) {
+    throw new Error('Expected argument of type lc.schema.SafeItemExt');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_SafeItemExt(buffer_arg) {
+  return lc_pb.SafeItemExt.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_lc_schema_ZItemExtList(arg) {
+  if (!(arg instanceof lc_pb.ZItemExtList)) {
+    throw new Error('Expected argument of type lc.schema.ZItemExtList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_ZItemExtList(buffer_arg) {
+  return lc_pb.ZItemExtList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 
@@ -263,6 +341,29 @@ set: {
     responseSerialize: serialize_immudb_schema_SafeItem,
     responseDeserialize: deserialize_immudb_schema_SafeItem,
   },
+  // batch
+setBatch: {
+    path: '/lc.schema.LcService/SetBatch',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.KVList,
+    responseType: schema_pb.Index,
+    requestSerialize: serialize_immudb_schema_KVList,
+    requestDeserialize: deserialize_immudb_schema_KVList,
+    responseSerialize: serialize_immudb_schema_Index,
+    responseDeserialize: deserialize_immudb_schema_Index,
+  },
+  getBatch: {
+    path: '/lc.schema.LcService/GetBatch',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.KeyList,
+    responseType: schema_pb.ItemList,
+    requestSerialize: serialize_immudb_schema_KeyList,
+    requestDeserialize: deserialize_immudb_schema_KeyList,
+    responseSerialize: serialize_immudb_schema_ItemList,
+    responseDeserialize: deserialize_immudb_schema_ItemList,
+  },
   // scanners
 scan: {
     path: '/lc.schema.LcService/Scan',
@@ -279,10 +380,10 @@ scan: {
     path: '/lc.schema.LcService/History',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.Key,
+    requestType: schema_pb.HistoryOptions,
     responseType: schema_pb.ItemList,
-    requestSerialize: serialize_immudb_schema_Key,
-    requestDeserialize: deserialize_immudb_schema_Key,
+    requestSerialize: serialize_immudb_schema_HistoryOptions,
+    requestDeserialize: deserialize_immudb_schema_HistoryOptions,
     responseSerialize: serialize_immudb_schema_ItemList,
     responseDeserialize: deserialize_immudb_schema_ItemList,
   },
@@ -313,11 +414,11 @@ scan: {
     requestStream: false,
     responseStream: false,
     requestType: schema_pb.ZScanOptions,
-    responseType: schema_pb.ItemList,
+    responseType: schema_pb.ZItemList,
     requestSerialize: serialize_immudb_schema_ZScanOptions,
     requestDeserialize: deserialize_immudb_schema_ZScanOptions,
-    responseSerialize: serialize_immudb_schema_ItemList,
-    responseDeserialize: deserialize_immudb_schema_ItemList,
+    responseSerialize: serialize_immudb_schema_ZItemList,
+    responseDeserialize: deserialize_immudb_schema_ZItemList,
   },
   // mixed
 currentRoot: {
@@ -364,6 +465,40 @@ reportTamper: {
     requestDeserialize: deserialize_lc_schema_Data,
     responseSerialize: serialize_lc_schema_Response,
     responseDeserialize: deserialize_lc_schema_Response,
+  },
+  // ledger compliance extensions - items extended with additional properties managed by LC backend (date)
+safeGetExt: {
+    path: '/lc.schema.LcService/SafeGetExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.SafeGetOptions,
+    responseType: lc_pb.SafeItemExt,
+    requestSerialize: serialize_immudb_schema_SafeGetOptions,
+    requestDeserialize: deserialize_immudb_schema_SafeGetOptions,
+    responseSerialize: serialize_lc_schema_SafeItemExt,
+    responseDeserialize: deserialize_lc_schema_SafeItemExt,
+  },
+  zScanExt: {
+    path: '/lc.schema.LcService/ZScanExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.ZScanOptions,
+    responseType: lc_pb.ZItemExtList,
+    requestSerialize: serialize_immudb_schema_ZScanOptions,
+    requestDeserialize: deserialize_immudb_schema_ZScanOptions,
+    responseSerialize: serialize_lc_schema_ZItemExtList,
+    responseDeserialize: deserialize_lc_schema_ZItemExtList,
+  },
+  historyExt: {
+    path: '/lc.schema.LcService/HistoryExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.HistoryOptions,
+    responseType: lc_pb.ItemExtList,
+    requestSerialize: serialize_immudb_schema_HistoryOptions,
+    requestDeserialize: deserialize_immudb_schema_HistoryOptions,
+    responseSerialize: serialize_lc_schema_ItemExtList,
+    responseDeserialize: deserialize_lc_schema_ItemExtList,
   },
 };
 
