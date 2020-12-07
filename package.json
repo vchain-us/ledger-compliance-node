@@ -1,0 +1,44 @@
+{
+  "name": "ledger-compliance-node",
+  "version": "1.1.7",
+  "description": "Node SDK for codenotary Ledger Compliance",
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  },
+  "main": "lib/client.js",
+  "scripts": {
+    "test": "./test/test.sh"
+  },
+  "author": "vChain",
+  "license": "ISC",
+  "devDependencies": {
+    "grpc-tools": "1.10.0",
+    "protobufjs": "6.10.1",
+    "tap": "14.10.8"
+  },
+  "dependencies": {
+    "async-lock": "^1.2.4",
+    "btoa": "1.2.1",
+    "dotenv": "^8.2.0",
+    "google-protobuf": "3.13.0",
+    "@grpc/grpc-js": "1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/vchain-us/ledger-compliance-node.git"
+  },
+  "tap": {
+    "nyc-arg": [
+      "--exclude=protos"
+    ]
+  },
+  "keywords": [
+    "merkle",
+    "cryptography",
+    "merkle-proof",
+    "verifiable",
+    "tamperproof",
+    "ledger-compliance"
+  ]
+}
