@@ -1,6 +1,6 @@
 const tap = require('tap')
 
-const proofs = require('../lib/proofs')
+const proofs = require('../src/proofs')
 
 tap.test('digest', (t) => {
   const req = {

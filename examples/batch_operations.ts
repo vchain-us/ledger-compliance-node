@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2020 vChain, Inc.
+Copyright 2019-2021 CodeNotary, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const ImmudbLcClient = require("../lib/client")
-const util = require("./lib/util")
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
 
 try {
   util.dotenvAlert()
@@ -28,37 +28,32 @@ try {
 
 const rand = '' + Math.floor(Math.random()
   * Math.floor(100000))
-
+ 
 async function main(err, cl) {
   if (err) {
-    return console.error(err)
+    return console.log(err)
   }
 
   try {
-    let res = null
+    const batchSize = 1
 
-    for (var i=0; i < 3; i++) {
-      res = await cl.safeSet({ key: `${rand}-${i}`, value: `${rand}-${i}` })
-      console.log('success: safeSet', res.index)
+    // execute a batch insert
+    req = { keys: [] }
+    for (let i = 0; i < batchSize; i++) {
+      req.keys.push({ key: `${rand}-${i}`, value: `${rand}-${i}` })
     }
-    
-    // safeZAdd 1
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 5.0, key: `${rand}-1` })
-    console.log('success" safeZAdd', res.index)
+    res = await cl.setBatch(req)
+    console.log(`success: setBatch`, res)
 
-    // safeZAdd 2
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 99.0, key: `${rand}-3` })
-    console.log('success" safeZAdd', res.index)
-
-    // safeZAdd 3
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 1.0, key: `${rand}-2` })
-    console.log('success" safeZAdd', res.index)
-    
-    // zScan
-    res = await cl.zScan({ set: `${rand}-set` })
-    console.log('success" safeZAdd', res.index)    
-
+    // execute a batch read
+    req = { keys: [] }
+    for (let i = 0; i < batchSize; i++) {
+      req.keys.push({ key: `${rand}-${i}` })
+    }
+    res = await cl.getBatch(req)
+    console.log(`success: getBatch`, res)
+ 
   } catch (err) {
-    console.error('ERROR, example:sorted_set', err)
+    console.log('ERROR, example:batch_operations', err)
   }
 }

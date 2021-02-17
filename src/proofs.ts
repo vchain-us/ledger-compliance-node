@@ -1,11 +1,16 @@
-const crypto = require('crypto')
-const util = require('./util')
+import crypto from 'crypto'
+
+import util from './util'
 
 const leafPrefix = [0]
 const nodePrefix = [1]
 const sha256Size = 32
 
-const errVerificationException = {
+type ErrVerificationException = {
+  clientErr: string
+  meta?: number
+}
+const errVerificationException: ErrVerificationException = {
  clientErr : 'Inclusion proof does not verify',
 }
 
@@ -252,7 +257,7 @@ const verifyConsistency = (params, callback) => {
   }      
 }
 
-module.exports = {
+export default {
   verify,
   setKey,
   _digest,

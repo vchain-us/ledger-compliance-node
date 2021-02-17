@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2020 vChain, Inc.
+Copyright 2019-2021 CodeNotary, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,8 +11,9 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const ImmudbLcClient = require("../lib/client")
-const util = require("./lib/util")
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
+import _root from '../src/root'
 
 try {
   util.dotenvAlert()
@@ -21,6 +22,7 @@ try {
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
       rootPath: './root.json',
+      rootService: _root
   }, main)
 } catch (err) {
   console.error(err)
@@ -37,37 +39,17 @@ async function main(err, cl) {
   try {
     let res = null
 
-    // safe set 1
-    req = { key: `${rand}-1`, value: `${rand}-1` }
+    // safe set
+    req = { key: `${rand}-safe`, value: `${rand}-safe` }
     res = await cl.safeSet(req)
-    console.log('success: safeSet', res && res.index)
+    console.log('success: safeSet', res.index)
 
-    // safe set 2
-    req = { key: `${rand}-2`, value: `${rand}-2` }
-    res = await cl.safeSet(req)
-    console.log('success: safeSet', res && res.index)
-    
-    // safe set 3
-    req = { key: `${rand}-2`, value: `${rand}-3` }
-    res = await cl.safeSet(req)    
-    console.log('success: safeSet', res && res.index)
-
-    // scan
-    req = { keyPrefix: rand }
-    res = await cl.scan(req)
-    console.log('success: scan', res)
-
-    // history
-    req = {
-        keyPrefix: `${rand}-2`,
-        offset: 0,
-        limit: 1,
-        reverse: false
-    }
-    res = await cl.history(req)
-    console.log('succes: history', res)    
+    // safe get
+    req = { key: `${rand}-safe` }
+    res = await cl.safeGet(req)
+    console.log('success: safeGet', res)
 
   } catch (err) {
-    console.error('ERROR, example:scan_and_history', err)
-  }
+    console.error('ERROR, example:custom_root_service', err)
+  }  
 }

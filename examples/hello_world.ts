@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2020 vChain, Inc.
+Copyright 2019-2021 CodeNotary, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,12 +11,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const ImmudbLcClient = require("../lib/client")
-const util = require("./lib/util")
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
 
 try {
   util.dotenvAlert()
-  
+
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
@@ -28,32 +28,40 @@ try {
 
 const rand = '' + Math.floor(Math.random()
   * Math.floor(100000))
- 
+
 async function main(err, cl) {
   if (err) {
-    return console.log(err)
+    return console.error(err)
   }
 
   try {
-    const batchSize = 1
+    let res = null
 
-    // execute a batch insert
-    req = { keys: [] }
-    for (let i = 0; i < batchSize; i++) {
-      req.keys.push({ key: `${rand}-${i}`, value: `${rand}-${i}` })
-    }
-    res = await cl.setBatch(req)
-    console.log(`success: setBatch`, res)
+    // set
+    req = { key: `${rand}`, value: `${rand}` }
+    res = await cl.set(req)
+    console.log('success: set', res.index)
 
-    // execute a batch read
-    req = { keys: [] }
-    for (let i = 0; i < batchSize; i++) {
-      req.keys.push({ key: `${rand}-${i}` })
-    }
-    res = await cl.getBatch(req)
-    console.log(`success: getBatch`, res)
- 
+    // // get
+    req = { key: `${rand}` }
+    res = await cl.get(req)
+    console.log('success: get', res)
+
+    // safe set
+    req = { key: `${rand}-safe`, value: `${rand}-safe` }
+    res = await cl.safeSet(req)
+    console.log('success: safeSet', res.index)
+
+    // safe get
+    req = { key: `${rand}-safe` }
+    res = await cl.safeGet(req)
+    console.log('success: safeGet', res)
+
+    // get current root info
+    res = await cl.currentRoot()
+    console.log('success: currentRoot', res)
+
   } catch (err) {
-    console.log('ERROR, example:batch_operations', err)
+    console.error('ERROR, example:hello_world', err)
   }
 }

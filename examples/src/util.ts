@@ -9,7 +9,7 @@ const dotenvAlert = () => {
   return true
 }
 
-module.exports = {
+export default {
   dotenvAlert
 }
   

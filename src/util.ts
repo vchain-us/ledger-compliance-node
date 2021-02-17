@@ -1,18 +1,18 @@
-const AsyncLock = require('async-lock');
-const util = require('util');
+import AsyncLock from 'async-lock'
+
+import util from 'util'
 
 var lock = new AsyncLock();
 
-const utf8Encode = (val) => {
-  return new util.TextEncoder("utf-8").encode(val)
+const utf8Encode = (val: string): Uint8Array => {
+  return new util.TextEncoder().encode(val)
 }
 
-const utf8Decode = (val) => {
-  if (val === '') { return val }
+const utf8Decode = (val: Uint8Array) => {
   return new util.TextDecoder("utf-8").decode(val)
 }
 
-const promisifyAndLockMethod = (method, params) => {
+const promisifyAndLockMethod = (method: Function, params) => {
   const key = method.name 
   return lock.acquire(key, function() {
     return new Promise((resolve, reject) => {
@@ -46,7 +46,7 @@ const _isPowerOfTwo = (x) => {
   return Math.log2(x) % 1 === 0
 }
 
-module.exports = {
+export default {
   utf8Encode,
   utf8Decode,
   promisifyAndLockMethod,

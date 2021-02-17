@@ -1,6 +1,6 @@
 const tap = require('tap')
 
-const ImmudbClient = require('../lib/client')
+const ImmudbClient = require('../src/client')
 
 const setup = (options, t, done) => {
   ImmudbClient(options, (err, cl) => {

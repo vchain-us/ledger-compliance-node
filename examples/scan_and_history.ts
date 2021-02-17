@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2020 vChain, Inc.
+Copyright 2019-2021 CodeNotary, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,8 +11,8 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const ImmudbLcClient = require("../lib/client")
-const util = require("./lib/util")
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
 
 try {
   util.dotenvAlert()
@@ -34,34 +34,40 @@ async function main(err, cl) {
     return console.error(err)
   }
 
-  async function operation(n) {
-    try {
-      let res = null
-      let indexes = []
-      for (var i=0; i < n; i++) {
-        req = { key: `${rand}-${i}`, value: `${rand}-${i}` }
-        res = await cl.safeSet(req)
-        res && res.index && indexes.push(res.index)
-        req = { key: `${rand}-${i}` }
-        res = await cl.safeGet(req)
-      }
-      return indexes
-    } catch (err) {
-      console.error(err)
-    }
-  }
-
   try {
-    Promise.all([
-      operation(10),
-      operation(7),
-      operation(13),
-    ]).then(([indexes1, indexes2, indexes3]) => {
-      console.log(indexes1)
-      console.log(indexes2)
-      console.log(indexes3)
-    }).catch((err) => console.log(err))
+    let res = null
+
+    // safe set 1
+    req = { key: `${rand}-1`, value: `${rand}-1` }
+    res = await cl.safeSet(req)
+    console.log('success: safeSet', res && res.index)
+
+    // safe set 2
+    req = { key: `${rand}-2`, value: `${rand}-2` }
+    res = await cl.safeSet(req)
+    console.log('success: safeSet', res && res.index)
+    
+    // safe set 3
+    req = { key: `${rand}-2`, value: `${rand}-3` }
+    res = await cl.safeSet(req)    
+    console.log('success: safeSet', res && res.index)
+
+    // scan
+    req = { keyPrefix: rand }
+    res = await cl.scan(req)
+    console.log('success: scan', res)
+
+    // history
+    req = {
+        keyPrefix: `${rand}-2`,
+        offset: 0,
+        limit: 1,
+        reverse: false
+    }
+    res = await cl.history(req)
+    console.log('succes: history', res)    
+
   } catch (err) {
-    console.error('ERROR, example:concurrency', err)
+    console.error('ERROR, example:scan_and_history', err)
   }
 }

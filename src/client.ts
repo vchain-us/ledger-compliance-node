@@ -1,13 +1,14 @@
 require('dotenv').config()
 
-const grpc = require('@grpc/grpc-js')
-const empty = require('google-protobuf/google/protobuf/empty_pb');
+import grpc from '@grpc/grpc-js';
+import empty from 'google-protobuf/google/protobuf/empty_pb';
 
-const messages = require('../protos/build/schema_pb')
-const services = require('../protos/build/lc_grpc_pb')
-const util = require('./util')
-const proofs = require('./proofs')
-let root = require('./root')
+import messages from './proto/schema_pb';
+import services from './proto/lc_grpc_pb';
+import util from './util';
+import proofs from './proofs';
+
+import root from './root'
 
 let _client,
     _metadata,
@@ -704,4 +705,4 @@ const health = (params, callback) => {
   }
 }
 
-module.exports = ImmudbLcClient 
+export default ImmudbLcClient 

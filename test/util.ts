@@ -1,6 +1,6 @@
 const tap = require('tap')
 
-const util = require('../lib/util')
+const util = require('.../src/util')
 
 tap.test('utf8 encode', (t) => {
   const array = new Uint8Array([226, 130, 172])

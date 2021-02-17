@@ -1,5 +1,5 @@
 
-module.exports = {
+export default {
   action: {
     grant: 'GRANT',
     revoke: 'REVOKE',

@@ -1,5 +1,5 @@
 /*
-Copyright 2019-2020 vChain, Inc.
+Copyright 2019-2021 CodeNotary, Inc.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -11,18 +11,16 @@ See the License for the specific language governing permissions and
 limitations under the License.
 */
 
-const ImmudbLcClient = require("../lib/client")
-const util = require("./lib/util")
-const _root = require('./lib/root')
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
 
 try {
   util.dotenvAlert()
-
+  
   ImmudbLcClient({
       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
       rootPath: './root.json',
-      rootService: _root
   }, main)
 } catch (err) {
   console.error(err)
@@ -39,17 +37,28 @@ async function main(err, cl) {
   try {
     let res = null
 
-    // safe set
-    req = { key: `${rand}-safe`, value: `${rand}-safe` }
-    res = await cl.safeSet(req)
-    console.log('success: safeSet', res.index)
+    for (var i=0; i < 3; i++) {
+      res = await cl.safeSet({ key: `${rand}-${i}`, value: `${rand}-${i}` })
+      console.log('success: safeSet', res.index)
+    }
+    
+    // safeZAdd 1
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 5.0, key: `${rand}-1` })
+    console.log('success" safeZAdd', res.index)
 
-    // safe get
-    req = { key: `${rand}-safe` }
-    res = await cl.safeGet(req)
-    console.log('success: safeGet', res)
+    // safeZAdd 2
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 99.0, key: `${rand}-3` })
+    console.log('success" safeZAdd', res.index)
+
+    // safeZAdd 3
+    res = await cl.safeZAdd({ set: `${rand}-set`, score: 1.0, key: `${rand}-2` })
+    console.log('success" safeZAdd', res.index)
+    
+    // zScan
+    res = await cl.zScan({ set: `${rand}-set` })
+    console.log('success" safeZAdd', res.index)    
 
   } catch (err) {
-    console.error('ERROR, example:custom_root_service', err)
-  }  
+    console.error('ERROR, example:sorted_set', err)
+  }
 }
