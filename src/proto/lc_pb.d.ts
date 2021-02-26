@@ -7,6 +7,7 @@
 import * as jspb from "google-protobuf";
 import * as schema_pb from "./schema_pb";
 import * as google_protobuf_empty_pb from "google-protobuf/google/protobuf/empty_pb";
+import * as google_protobuf_timestamp_pb from "google-protobuf/google/protobuf/timestamp_pb";
 
 export class TamperReport extends jspb.Message { 
     getIndex(): number;
@@ -157,16 +158,16 @@ export class Response extends jspb.Message {
     setMsgid(value: number): Response;
 
 
-    hasProof(): boolean;
-    clearProof(): void;
-    getProof(): schema_pb.Proof | undefined;
-    setProof(value?: schema_pb.Proof): Response;
+    hasVerifiabletx(): boolean;
+    clearVerifiabletx(): void;
+    getVerifiabletx(): schema_pb.VerifiableTx | undefined;
+    setVerifiabletx(value?: schema_pb.VerifiableTx): Response;
 
 
-    hasRoot(): boolean;
-    clearRoot(): void;
-    getRoot(): schema_pb.Root | undefined;
-    setRoot(value?: schema_pb.Root): Response;
+    hasState(): boolean;
+    clearState(): void;
+    getState(): schema_pb.ImmutableState | undefined;
+    setState(value?: schema_pb.ImmutableState): Response;
 
 
     serializeBinary(): Uint8Array;
@@ -184,7 +185,146 @@ export namespace Response {
         status: number,
         msg: string,
         msgid: number,
-        proof?: schema_pb.Proof.AsObject,
-        root?: schema_pb.Root.AsObject,
+        verifiabletx?: schema_pb.VerifiableTx.AsObject,
+        state?: schema_pb.ImmutableState.AsObject,
+    }
+}
+
+export class VerifiableItemExt extends jspb.Message { 
+
+    hasItem(): boolean;
+    clearItem(): void;
+    getItem(): schema_pb.VerifiableEntry | undefined;
+    setItem(value?: schema_pb.VerifiableEntry): VerifiableItemExt;
+
+
+    hasTimestamp(): boolean;
+    clearTimestamp(): void;
+    getTimestamp(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setTimestamp(value?: google_protobuf_timestamp_pb.Timestamp): VerifiableItemExt;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): VerifiableItemExt.AsObject;
+    static toObject(includeInstance: boolean, msg: VerifiableItemExt): VerifiableItemExt.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: VerifiableItemExt, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): VerifiableItemExt;
+    static deserializeBinaryFromReader(message: VerifiableItemExt, reader: jspb.BinaryReader): VerifiableItemExt;
+}
+
+export namespace VerifiableItemExt {
+    export type AsObject = {
+        item?: schema_pb.VerifiableEntry.AsObject,
+        timestamp?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    }
+}
+
+export class ItemExt extends jspb.Message { 
+
+    hasItem(): boolean;
+    clearItem(): void;
+    getItem(): schema_pb.Entry | undefined;
+    setItem(value?: schema_pb.Entry): ItemExt;
+
+
+    hasTimestamp(): boolean;
+    clearTimestamp(): void;
+    getTimestamp(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setTimestamp(value?: google_protobuf_timestamp_pb.Timestamp): ItemExt;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ItemExt.AsObject;
+    static toObject(includeInstance: boolean, msg: ItemExt): ItemExt.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ItemExt, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ItemExt;
+    static deserializeBinaryFromReader(message: ItemExt, reader: jspb.BinaryReader): ItemExt;
+}
+
+export namespace ItemExt {
+    export type AsObject = {
+        item?: schema_pb.Entry.AsObject,
+        timestamp?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    }
+}
+
+export class ItemExtList extends jspb.Message { 
+    clearItemsList(): void;
+    getItemsList(): Array<ItemExt>;
+    setItemsList(value: Array<ItemExt>): ItemExtList;
+    addItems(value?: ItemExt, index?: number): ItemExt;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ItemExtList.AsObject;
+    static toObject(includeInstance: boolean, msg: ItemExtList): ItemExtList.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ItemExtList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ItemExtList;
+    static deserializeBinaryFromReader(message: ItemExtList, reader: jspb.BinaryReader): ItemExtList;
+}
+
+export namespace ItemExtList {
+    export type AsObject = {
+        itemsList: Array<ItemExt.AsObject>,
+    }
+}
+
+export class ZItemExt extends jspb.Message { 
+
+    hasItem(): boolean;
+    clearItem(): void;
+    getItem(): schema_pb.ZEntry | undefined;
+    setItem(value?: schema_pb.ZEntry): ZItemExt;
+
+
+    hasTimestamp(): boolean;
+    clearTimestamp(): void;
+    getTimestamp(): google_protobuf_timestamp_pb.Timestamp | undefined;
+    setTimestamp(value?: google_protobuf_timestamp_pb.Timestamp): ZItemExt;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ZItemExt.AsObject;
+    static toObject(includeInstance: boolean, msg: ZItemExt): ZItemExt.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ZItemExt, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ZItemExt;
+    static deserializeBinaryFromReader(message: ZItemExt, reader: jspb.BinaryReader): ZItemExt;
+}
+
+export namespace ZItemExt {
+    export type AsObject = {
+        item?: schema_pb.ZEntry.AsObject,
+        timestamp?: google_protobuf_timestamp_pb.Timestamp.AsObject,
+    }
+}
+
+export class ZItemExtList extends jspb.Message { 
+    clearItemsList(): void;
+    getItemsList(): Array<ZItemExt>;
+    setItemsList(value: Array<ZItemExt>): ZItemExtList;
+    addItems(value?: ZItemExt, index?: number): ZItemExt;
+
+
+    serializeBinary(): Uint8Array;
+    toObject(includeInstance?: boolean): ZItemExtList.AsObject;
+    static toObject(includeInstance: boolean, msg: ZItemExtList): ZItemExtList.AsObject;
+    static extensions: {[key: number]: jspb.ExtensionFieldInfo<jspb.Message>};
+    static extensionsBinary: {[key: number]: jspb.ExtensionFieldBinaryInfo<jspb.Message>};
+    static serializeBinaryToWriter(message: ZItemExtList, writer: jspb.BinaryWriter): void;
+    static deserializeBinary(bytes: Uint8Array): ZItemExtList;
+    static deserializeBinaryFromReader(message: ZItemExtList, reader: jspb.BinaryReader): ZItemExtList;
+}
+
+export namespace ZItemExtList {
+    export type AsObject = {
+        itemsList: Array<ZItemExt.AsObject>,
     }
 }

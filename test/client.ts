@@ -1,6 +1,6 @@
-const tap = require('tap')
+import tap from 'tap'
 
-const ImmudbClient = require('../src/client')
+import ImmudbClient from '../src/client'
 
 const setup = (options, t, done) => {
   ImmudbClient(options, (err, cl) => {

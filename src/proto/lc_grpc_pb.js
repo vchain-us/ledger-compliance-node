@@ -1,10 +1,26 @@
 // GENERATED CODE -- DO NOT EDIT!
 
+// Original file comments:
+//
+// Copyright 2021 CodeNotary, Inc. All rights reserved.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+// http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var lc_pb = require('./lc_pb.js');
 var schema_pb = require('./schema_pb.js');
 var google_protobuf_empty_pb = require('google-protobuf/google/protobuf/empty_pb.js');
+var google_protobuf_timestamp_pb = require('google-protobuf/google/protobuf/timestamp_pb.js');
 
 function serialize_google_protobuf_Empty(arg) {
   if (!(arg instanceof google_protobuf_empty_pb.Empty)) {
@@ -15,6 +31,39 @@ function serialize_google_protobuf_Empty(arg) {
 
 function deserialize_google_protobuf_Empty(buffer_arg) {
   return google_protobuf_empty_pb.Empty.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_immudb_schema_Entries(arg) {
+  if (!(arg instanceof schema_pb.Entries)) {
+    throw new Error('Expected argument of type immudb.schema.Entries');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_Entries(buffer_arg) {
+  return schema_pb.Entries.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_immudb_schema_Entry(arg) {
+  if (!(arg instanceof schema_pb.Entry)) {
+    throw new Error('Expected argument of type immudb.schema.Entry');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_Entry(buffer_arg) {
+  return schema_pb.Entry.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_immudb_schema_ExecAllRequest(arg) {
+  if (!(arg instanceof schema_pb.ExecAllRequest)) {
+    throw new Error('Expected argument of type immudb.schema.ExecAllRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_immudb_schema_ExecAllRequest(buffer_arg) {
+  return schema_pb.ExecAllRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_immudb_schema_HealthResponse(arg) {
@@ -28,180 +77,169 @@ function deserialize_immudb_schema_HealthResponse(buffer_arg) {
   return schema_pb.HealthResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_Index(arg) {
-  if (!(arg instanceof schema_pb.Index)) {
-    throw new Error('Expected argument of type immudb.schema.Index');
+function serialize_immudb_schema_HistoryRequest(arg) {
+  if (!(arg instanceof schema_pb.HistoryRequest)) {
+    throw new Error('Expected argument of type immudb.schema.HistoryRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_Index(buffer_arg) {
-  return schema_pb.Index.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_HistoryRequest(buffer_arg) {
+  return schema_pb.HistoryRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_Item(arg) {
-  if (!(arg instanceof schema_pb.Item)) {
-    throw new Error('Expected argument of type immudb.schema.Item');
+function serialize_immudb_schema_ImmutableState(arg) {
+  if (!(arg instanceof schema_pb.ImmutableState)) {
+    throw new Error('Expected argument of type immudb.schema.ImmutableState');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_Item(buffer_arg) {
-  return schema_pb.Item.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_ImmutableState(buffer_arg) {
+  return schema_pb.ImmutableState.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_ItemList(arg) {
-  if (!(arg instanceof schema_pb.ItemList)) {
-    throw new Error('Expected argument of type immudb.schema.ItemList');
+function serialize_immudb_schema_KeyListRequest(arg) {
+  if (!(arg instanceof schema_pb.KeyListRequest)) {
+    throw new Error('Expected argument of type immudb.schema.KeyListRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_ItemList(buffer_arg) {
-  return schema_pb.ItemList.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_KeyListRequest(buffer_arg) {
+  return schema_pb.KeyListRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_KVList(arg) {
-  if (!(arg instanceof schema_pb.KVList)) {
-    throw new Error('Expected argument of type immudb.schema.KVList');
+function serialize_immudb_schema_KeyRequest(arg) {
+  if (!(arg instanceof schema_pb.KeyRequest)) {
+    throw new Error('Expected argument of type immudb.schema.KeyRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_KVList(buffer_arg) {
-  return schema_pb.KVList.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_KeyRequest(buffer_arg) {
+  return schema_pb.KeyRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_Key(arg) {
-  if (!(arg instanceof schema_pb.Key)) {
-    throw new Error('Expected argument of type immudb.schema.Key');
+function serialize_immudb_schema_ScanRequest(arg) {
+  if (!(arg instanceof schema_pb.ScanRequest)) {
+    throw new Error('Expected argument of type immudb.schema.ScanRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_Key(buffer_arg) {
-  return schema_pb.Key.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_ScanRequest(buffer_arg) {
+  return schema_pb.ScanRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_KeyList(arg) {
-  if (!(arg instanceof schema_pb.KeyList)) {
-    throw new Error('Expected argument of type immudb.schema.KeyList');
+function serialize_immudb_schema_SetRequest(arg) {
+  if (!(arg instanceof schema_pb.SetRequest)) {
+    throw new Error('Expected argument of type immudb.schema.SetRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_KeyList(buffer_arg) {
-  return schema_pb.KeyList.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_SetRequest(buffer_arg) {
+  return schema_pb.SetRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_KeyValue(arg) {
-  if (!(arg instanceof schema_pb.KeyValue)) {
-    throw new Error('Expected argument of type immudb.schema.KeyValue');
+function serialize_immudb_schema_TxMetadata(arg) {
+  if (!(arg instanceof schema_pb.TxMetadata)) {
+    throw new Error('Expected argument of type immudb.schema.TxMetadata');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_KeyValue(buffer_arg) {
-  return schema_pb.KeyValue.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_TxMetadata(buffer_arg) {
+  return schema_pb.TxMetadata.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_Proof(arg) {
-  if (!(arg instanceof schema_pb.Proof)) {
-    throw new Error('Expected argument of type immudb.schema.Proof');
+function serialize_immudb_schema_VerifiableEntry(arg) {
+  if (!(arg instanceof schema_pb.VerifiableEntry)) {
+    throw new Error('Expected argument of type immudb.schema.VerifiableEntry');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_Proof(buffer_arg) {
-  return schema_pb.Proof.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_VerifiableEntry(buffer_arg) {
+  return schema_pb.VerifiableEntry.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_Root(arg) {
-  if (!(arg instanceof schema_pb.Root)) {
-    throw new Error('Expected argument of type immudb.schema.Root');
+function serialize_immudb_schema_VerifiableGetRequest(arg) {
+  if (!(arg instanceof schema_pb.VerifiableGetRequest)) {
+    throw new Error('Expected argument of type immudb.schema.VerifiableGetRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_Root(buffer_arg) {
-  return schema_pb.Root.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_VerifiableGetRequest(buffer_arg) {
+  return schema_pb.VerifiableGetRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_SafeGetOptions(arg) {
-  if (!(arg instanceof schema_pb.SafeGetOptions)) {
-    throw new Error('Expected argument of type immudb.schema.SafeGetOptions');
+function serialize_immudb_schema_VerifiableSetRequest(arg) {
+  if (!(arg instanceof schema_pb.VerifiableSetRequest)) {
+    throw new Error('Expected argument of type immudb.schema.VerifiableSetRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_SafeGetOptions(buffer_arg) {
-  return schema_pb.SafeGetOptions.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_VerifiableSetRequest(buffer_arg) {
+  return schema_pb.VerifiableSetRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_SafeItem(arg) {
-  if (!(arg instanceof schema_pb.SafeItem)) {
-    throw new Error('Expected argument of type immudb.schema.SafeItem');
+function serialize_immudb_schema_VerifiableTx(arg) {
+  if (!(arg instanceof schema_pb.VerifiableTx)) {
+    throw new Error('Expected argument of type immudb.schema.VerifiableTx');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_SafeItem(buffer_arg) {
-  return schema_pb.SafeItem.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_VerifiableTx(buffer_arg) {
+  return schema_pb.VerifiableTx.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_SafeSetOptions(arg) {
-  if (!(arg instanceof schema_pb.SafeSetOptions)) {
-    throw new Error('Expected argument of type immudb.schema.SafeSetOptions');
+function serialize_immudb_schema_VerifiableZAddRequest(arg) {
+  if (!(arg instanceof schema_pb.VerifiableZAddRequest)) {
+    throw new Error('Expected argument of type immudb.schema.VerifiableZAddRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_SafeSetOptions(buffer_arg) {
-  return schema_pb.SafeSetOptions.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_VerifiableZAddRequest(buffer_arg) {
+  return schema_pb.VerifiableZAddRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_SafeZAddOptions(arg) {
-  if (!(arg instanceof schema_pb.SafeZAddOptions)) {
-    throw new Error('Expected argument of type immudb.schema.SafeZAddOptions');
+function serialize_immudb_schema_ZAddRequest(arg) {
+  if (!(arg instanceof schema_pb.ZAddRequest)) {
+    throw new Error('Expected argument of type immudb.schema.ZAddRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_SafeZAddOptions(buffer_arg) {
-  return schema_pb.SafeZAddOptions.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_ZAddRequest(buffer_arg) {
+  return schema_pb.ZAddRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_ScanOptions(arg) {
-  if (!(arg instanceof schema_pb.ScanOptions)) {
-    throw new Error('Expected argument of type immudb.schema.ScanOptions');
+function serialize_immudb_schema_ZEntries(arg) {
+  if (!(arg instanceof schema_pb.ZEntries)) {
+    throw new Error('Expected argument of type immudb.schema.ZEntries');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_ScanOptions(buffer_arg) {
-  return schema_pb.ScanOptions.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_ZEntries(buffer_arg) {
+  return schema_pb.ZEntries.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
-function serialize_immudb_schema_ZAddOptions(arg) {
-  if (!(arg instanceof schema_pb.ZAddOptions)) {
-    throw new Error('Expected argument of type immudb.schema.ZAddOptions');
+function serialize_immudb_schema_ZScanRequest(arg) {
+  if (!(arg instanceof schema_pb.ZScanRequest)) {
+    throw new Error('Expected argument of type immudb.schema.ZScanRequest');
   }
   return Buffer.from(arg.serializeBinary());
 }
 
-function deserialize_immudb_schema_ZAddOptions(buffer_arg) {
-  return schema_pb.ZAddOptions.deserializeBinary(new Uint8Array(buffer_arg));
-}
-
-function serialize_immudb_schema_ZScanOptions(arg) {
-  if (!(arg instanceof schema_pb.ZScanOptions)) {
-    throw new Error('Expected argument of type immudb.schema.ZScanOptions');
-  }
-  return Buffer.from(arg.serializeBinary());
-}
-
-function deserialize_immudb_schema_ZScanOptions(buffer_arg) {
-  return schema_pb.ZScanOptions.deserializeBinary(new Uint8Array(buffer_arg));
+function deserialize_immudb_schema_ZScanRequest(buffer_arg) {
+  return schema_pb.ZScanRequest.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_lc_schema_Data(arg) {
@@ -213,6 +251,17 @@ function serialize_lc_schema_Data(arg) {
 
 function deserialize_lc_schema_Data(buffer_arg) {
   return lc_pb.Data.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_lc_schema_ItemExtList(arg) {
+  if (!(arg instanceof lc_pb.ItemExtList)) {
+    throw new Error('Expected argument of type lc.schema.ItemExtList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_ItemExtList(buffer_arg) {
+  return lc_pb.ItemExtList.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_lc_schema_ReportOptions(arg) {
@@ -237,6 +286,28 @@ function deserialize_lc_schema_Response(buffer_arg) {
   return lc_pb.Response.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_lc_schema_VerifiableItemExt(arg) {
+  if (!(arg instanceof lc_pb.VerifiableItemExt)) {
+    throw new Error('Expected argument of type lc.schema.VerifiableItemExt');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_VerifiableItemExt(buffer_arg) {
+  return lc_pb.VerifiableItemExt.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_lc_schema_ZItemExtList(arg) {
+  if (!(arg instanceof lc_pb.ZItemExtList)) {
+    throw new Error('Expected argument of type lc.schema.ZItemExtList');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_lc_schema_ZItemExtList(buffer_arg) {
+  return lc_pb.ZItemExtList.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 
 var LcServiceService = exports.LcServiceService = {
   // immudb primitives
@@ -245,136 +316,136 @@ set: {
     path: '/lc.schema.LcService/Set',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.KeyValue,
-    responseType: schema_pb.Index,
-    requestSerialize: serialize_immudb_schema_KeyValue,
-    requestDeserialize: deserialize_immudb_schema_KeyValue,
-    responseSerialize: serialize_immudb_schema_Index,
-    responseDeserialize: deserialize_immudb_schema_Index,
+    requestType: schema_pb.SetRequest,
+    responseType: schema_pb.TxMetadata,
+    requestSerialize: serialize_immudb_schema_SetRequest,
+    requestDeserialize: deserialize_immudb_schema_SetRequest,
+    responseSerialize: serialize_immudb_schema_TxMetadata,
+    responseDeserialize: deserialize_immudb_schema_TxMetadata,
   },
   get: {
     path: '/lc.schema.LcService/Get',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.Key,
-    responseType: schema_pb.Item,
-    requestSerialize: serialize_immudb_schema_Key,
-    requestDeserialize: deserialize_immudb_schema_Key,
-    responseSerialize: serialize_immudb_schema_Item,
-    responseDeserialize: deserialize_immudb_schema_Item,
+    requestType: schema_pb.KeyRequest,
+    responseType: schema_pb.Entry,
+    requestSerialize: serialize_immudb_schema_KeyRequest,
+    requestDeserialize: deserialize_immudb_schema_KeyRequest,
+    responseSerialize: serialize_immudb_schema_Entry,
+    responseDeserialize: deserialize_immudb_schema_Entry,
   },
-  safeSet: {
-    path: '/lc.schema.LcService/SafeSet',
+  verifiableSet: {
+    path: '/lc.schema.LcService/VerifiableSet',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.SafeSetOptions,
-    responseType: schema_pb.Proof,
-    requestSerialize: serialize_immudb_schema_SafeSetOptions,
-    requestDeserialize: deserialize_immudb_schema_SafeSetOptions,
-    responseSerialize: serialize_immudb_schema_Proof,
-    responseDeserialize: deserialize_immudb_schema_Proof,
+    requestType: schema_pb.VerifiableSetRequest,
+    responseType: schema_pb.VerifiableTx,
+    requestSerialize: serialize_immudb_schema_VerifiableSetRequest,
+    requestDeserialize: deserialize_immudb_schema_VerifiableSetRequest,
+    responseSerialize: serialize_immudb_schema_VerifiableTx,
+    responseDeserialize: deserialize_immudb_schema_VerifiableTx,
   },
-  safeGet: {
-    path: '/lc.schema.LcService/SafeGet',
+  verifiableGet: {
+    path: '/lc.schema.LcService/VerifiableGet',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.SafeGetOptions,
-    responseType: schema_pb.SafeItem,
-    requestSerialize: serialize_immudb_schema_SafeGetOptions,
-    requestDeserialize: deserialize_immudb_schema_SafeGetOptions,
-    responseSerialize: serialize_immudb_schema_SafeItem,
-    responseDeserialize: deserialize_immudb_schema_SafeItem,
+    requestType: schema_pb.VerifiableGetRequest,
+    responseType: schema_pb.VerifiableEntry,
+    requestSerialize: serialize_immudb_schema_VerifiableGetRequest,
+    requestDeserialize: deserialize_immudb_schema_VerifiableGetRequest,
+    responseSerialize: serialize_immudb_schema_VerifiableEntry,
+    responseDeserialize: deserialize_immudb_schema_VerifiableEntry,
   },
   // batch
-setBatch: {
-    path: '/lc.schema.LcService/SetBatch',
+getAll: {
+    path: '/lc.schema.LcService/GetAll',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.KVList,
-    responseType: schema_pb.Index,
-    requestSerialize: serialize_immudb_schema_KVList,
-    requestDeserialize: deserialize_immudb_schema_KVList,
-    responseSerialize: serialize_immudb_schema_Index,
-    responseDeserialize: deserialize_immudb_schema_Index,
+    requestType: schema_pb.KeyListRequest,
+    responseType: schema_pb.Entries,
+    requestSerialize: serialize_immudb_schema_KeyListRequest,
+    requestDeserialize: deserialize_immudb_schema_KeyListRequest,
+    responseSerialize: serialize_immudb_schema_Entries,
+    responseDeserialize: deserialize_immudb_schema_Entries,
   },
-  getBatch: {
-    path: '/lc.schema.LcService/GetBatch',
+  execAll: {
+    path: '/lc.schema.LcService/ExecAll',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.KeyList,
-    responseType: schema_pb.ItemList,
-    requestSerialize: serialize_immudb_schema_KeyList,
-    requestDeserialize: deserialize_immudb_schema_KeyList,
-    responseSerialize: serialize_immudb_schema_ItemList,
-    responseDeserialize: deserialize_immudb_schema_ItemList,
+    requestType: schema_pb.ExecAllRequest,
+    responseType: schema_pb.TxMetadata,
+    requestSerialize: serialize_immudb_schema_ExecAllRequest,
+    requestDeserialize: deserialize_immudb_schema_ExecAllRequest,
+    responseSerialize: serialize_immudb_schema_TxMetadata,
+    responseDeserialize: deserialize_immudb_schema_TxMetadata,
   },
   // scanners
 scan: {
     path: '/lc.schema.LcService/Scan',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.ScanOptions,
-    responseType: schema_pb.ItemList,
-    requestSerialize: serialize_immudb_schema_ScanOptions,
-    requestDeserialize: deserialize_immudb_schema_ScanOptions,
-    responseSerialize: serialize_immudb_schema_ItemList,
-    responseDeserialize: deserialize_immudb_schema_ItemList,
+    requestType: schema_pb.ScanRequest,
+    responseType: schema_pb.Entries,
+    requestSerialize: serialize_immudb_schema_ScanRequest,
+    requestDeserialize: deserialize_immudb_schema_ScanRequest,
+    responseSerialize: serialize_immudb_schema_Entries,
+    responseDeserialize: deserialize_immudb_schema_Entries,
   },
   history: {
     path: '/lc.schema.LcService/History',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.Key,
-    responseType: schema_pb.ItemList,
-    requestSerialize: serialize_immudb_schema_Key,
-    requestDeserialize: deserialize_immudb_schema_Key,
-    responseSerialize: serialize_immudb_schema_ItemList,
-    responseDeserialize: deserialize_immudb_schema_ItemList,
+    requestType: schema_pb.HistoryRequest,
+    responseType: schema_pb.Entries,
+    requestSerialize: serialize_immudb_schema_HistoryRequest,
+    requestDeserialize: deserialize_immudb_schema_HistoryRequest,
+    responseSerialize: serialize_immudb_schema_Entries,
+    responseDeserialize: deserialize_immudb_schema_Entries,
   },
   zAdd: {
     path: '/lc.schema.LcService/ZAdd',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.ZAddOptions,
-    responseType: schema_pb.Index,
-    requestSerialize: serialize_immudb_schema_ZAddOptions,
-    requestDeserialize: deserialize_immudb_schema_ZAddOptions,
-    responseSerialize: serialize_immudb_schema_Index,
-    responseDeserialize: deserialize_immudb_schema_Index,
+    requestType: schema_pb.ZAddRequest,
+    responseType: schema_pb.TxMetadata,
+    requestSerialize: serialize_immudb_schema_ZAddRequest,
+    requestDeserialize: deserialize_immudb_schema_ZAddRequest,
+    responseSerialize: serialize_immudb_schema_TxMetadata,
+    responseDeserialize: deserialize_immudb_schema_TxMetadata,
   },
-  safeZAdd: {
-    path: '/lc.schema.LcService/SafeZAdd',
+  verifiableZAdd: {
+    path: '/lc.schema.LcService/VerifiableZAdd',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.SafeZAddOptions,
-    responseType: schema_pb.Proof,
-    requestSerialize: serialize_immudb_schema_SafeZAddOptions,
-    requestDeserialize: deserialize_immudb_schema_SafeZAddOptions,
-    responseSerialize: serialize_immudb_schema_Proof,
-    responseDeserialize: deserialize_immudb_schema_Proof,
+    requestType: schema_pb.VerifiableZAddRequest,
+    responseType: schema_pb.VerifiableTx,
+    requestSerialize: serialize_immudb_schema_VerifiableZAddRequest,
+    requestDeserialize: deserialize_immudb_schema_VerifiableZAddRequest,
+    responseSerialize: serialize_immudb_schema_VerifiableTx,
+    responseDeserialize: deserialize_immudb_schema_VerifiableTx,
   },
   zScan: {
     path: '/lc.schema.LcService/ZScan',
     requestStream: false,
     responseStream: false,
-    requestType: schema_pb.ZScanOptions,
-    responseType: schema_pb.ItemList,
-    requestSerialize: serialize_immudb_schema_ZScanOptions,
-    requestDeserialize: deserialize_immudb_schema_ZScanOptions,
-    responseSerialize: serialize_immudb_schema_ItemList,
-    responseDeserialize: deserialize_immudb_schema_ItemList,
+    requestType: schema_pb.ZScanRequest,
+    responseType: schema_pb.ZEntries,
+    requestSerialize: serialize_immudb_schema_ZScanRequest,
+    requestDeserialize: deserialize_immudb_schema_ZScanRequest,
+    responseSerialize: serialize_immudb_schema_ZEntries,
+    responseDeserialize: deserialize_immudb_schema_ZEntries,
   },
   // mixed
-currentRoot: {
-    path: '/lc.schema.LcService/CurrentRoot',
+currentState: {
+    path: '/lc.schema.LcService/CurrentState',
     requestStream: false,
     responseStream: false,
     requestType: google_protobuf_empty_pb.Empty,
-    responseType: schema_pb.Root,
+    responseType: schema_pb.ImmutableState,
     requestSerialize: serialize_google_protobuf_Empty,
     requestDeserialize: deserialize_google_protobuf_Empty,
-    responseSerialize: serialize_immudb_schema_Root,
-    responseDeserialize: deserialize_immudb_schema_Root,
+    responseSerialize: serialize_immudb_schema_ImmutableState,
+    responseDeserialize: deserialize_immudb_schema_ImmutableState,
   },
   health: {
     path: '/lc.schema.LcService/Health',
@@ -409,6 +480,40 @@ reportTamper: {
     requestDeserialize: deserialize_lc_schema_Data,
     responseSerialize: serialize_lc_schema_Response,
     responseDeserialize: deserialize_lc_schema_Response,
+  },
+  // ledger compliance extensions - items extended with additional properties managed by LC backend (date)
+verifiableGetExt: {
+    path: '/lc.schema.LcService/VerifiableGetExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.VerifiableGetRequest,
+    responseType: lc_pb.VerifiableItemExt,
+    requestSerialize: serialize_immudb_schema_VerifiableGetRequest,
+    requestDeserialize: deserialize_immudb_schema_VerifiableGetRequest,
+    responseSerialize: serialize_lc_schema_VerifiableItemExt,
+    responseDeserialize: deserialize_lc_schema_VerifiableItemExt,
+  },
+  zScanExt: {
+    path: '/lc.schema.LcService/ZScanExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.ZScanRequest,
+    responseType: lc_pb.ZItemExtList,
+    requestSerialize: serialize_immudb_schema_ZScanRequest,
+    requestDeserialize: deserialize_immudb_schema_ZScanRequest,
+    responseSerialize: serialize_lc_schema_ZItemExtList,
+    responseDeserialize: deserialize_lc_schema_ZItemExtList,
+  },
+  historyExt: {
+    path: '/lc.schema.LcService/HistoryExt',
+    requestStream: false,
+    responseStream: false,
+    requestType: schema_pb.HistoryRequest,
+    responseType: lc_pb.ItemExtList,
+    requestSerialize: serialize_immudb_schema_HistoryRequest,
+    requestDeserialize: deserialize_immudb_schema_HistoryRequest,
+    responseSerialize: serialize_lc_schema_ItemExtList,
+    responseDeserialize: deserialize_lc_schema_ItemExtList,
   },
 };
 
