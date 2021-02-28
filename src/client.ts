@@ -28,7 +28,7 @@ class ImmudbLcClient {
 
   private _apiKey: any;
 
-  private constructor({
+  constructor({
     host = (process.env.LEDGER_COMPLIANCE_ADDRESS as string) || '127.0.0.1',
     port = (process.env.LEDGER_COMPLIANCE_PORT as string) || '3324',
     certs,
@@ -49,7 +49,7 @@ class ImmudbLcClient {
     this._metadata = new grpc.Metadata();
 
     // init state
-    this.state = new State({ client: this.client })
+    this.state = new State({ client: this.client, rootPath })
   }
 
   public static async getInstance(config: interfaces.Config): Promise<ImmudbLcClient> {

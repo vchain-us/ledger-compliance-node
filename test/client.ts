@@ -1,142 +1,139 @@
 import tap from 'tap'
 
-import ImmudbClient from '../src/client'
+import ImmudbLcClient from '../src/client'
+import { HistoryParameters, ZScanParameters } from '../src/types'
 
-const setup = (options, t, done) => {
-  ImmudbClient(options, (err, cl) => {
-    t.error(err)
-    done(cl)
-  })
+const options = {
+  host: process.env.LEDGER_COMPLIANCE_ADDRESS,
+  port: process.env.LEDGER_COMPLIANCE_PORT,
+  apiKey: process.env.LEDGER_COMPLIANCE_API_KEY
 }
 
-tap.test('operations', (t) => {
-    const options = {
-      address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
-      apikey: process.env.LEDGER_COMPLIANCE_API_KEY
-    }
-    setup(options, t, async function(cl) {
-      try {
-        const rand = '' + Math.floor(Math.random()
-          * Math.floor(100000))
-  
-        // test: add new item having the specified key
-        // and value
-        req = { key: rand, value: rand }
-        res = await cl.set(req)
-        const index = res && res.index // saving for byIndex
-  
-        // test: get item by key
-        req = { key: rand }
-        res = await cl.get({ key: rand })
-  
-        // test: iterate over keys having the specified
-        // prefix
-        req = {
-          keyPrefix: rand,
-          offset: '10',
-          limit: 5,
-          reverse: false,
-          deep: false,
-        }
-        res = await cl.scan(req)
-  
-        // history: fetch history for the item having the
-        // specified key
-        req = {
-          keyPrefix: rand,
-          offset: 0,
-          limit: 1,
-          reverse: false
-        }
-        res = await cl.history(req)
-  
-        // test: iterate over a sorted set
-        req = {
-          set: rand,
-          offset: '10',
-          limit: 5,
-          reverse: false,
-        }
-        res = await cl.zScan(req)
-  
-        // test: add new item having the specified key
-        // and value
-        res = await cl.set({ key: rand*2, value: rand*2 })
-  
-        // test: get current root info
-        res = await cl.currentRoot()
-  
-        // test: safely add new item having the specified key
-        // and value
-        req = {
-          key: rand+10,
-          value: rand+10,
-        }
-        res = await cl.safeSet(req)
-  
-        // test: get current root info
-        res = await cl.currentRoot()
-  
-        // test: safely add new item having the specified key
-        // and value
-        req = {
-          key: rand+11,
-          value: rand+11,
-        }
-        res = await cl.safeSet(req)
-  
-        // test: safely add new item having the specified key
-        // and value
-        req = {
-          key: rand+12,
-          value: rand+12,
-        }
-        res = await cl.safeSet(req)
-  
-        // test: safely get item by key
-        req = {
-          key: rand+12,
-        }
-        res = await cl.safeGet(req)
-  
-        t.end()
-      } catch (err) {
-        t.error(err)
+tap.test('operations', async t => {
+    const cl = await ImmudbLcClient.getInstance(options)
+    
+    try {
+      const randNum = Math.floor(Math.random()
+        * Math.floor(100000))
+      const randStr = `${randNum}`
+
+      // test: add new item having the specified key
+      // and value
+      const setReq = { key: randStr, value: randStr }
+      const setRes = await cl.set(setReq)
+
+      // test: get item by key
+      const getReq = { key: randStr }
+      const getRes = await cl.get(getReq)
+
+      // test: iterate over keys having the specified
+      // prefix
+      const scanReq = {
+        keyPrefix: randStr,
+        offset: '10',
+        limit: 5,
+        reverse: false,
+        deep: false,
       }
-    })
+      const scanRes = await cl.scan(scanReq)
+
+      // history: fetch history for the item having the
+      // specified key
+      const historyReq: HistoryParameters = {
+        key: randStr,
+        offset: 10,
+        limit: 5,
+        desc: false,
+        sincetx: randNum
+      }
+      const historyRes = await cl.history(historyReq)
+
+      // test: iterate over a sorted set
+      const zScanReq: ZScanParameters = {
+        set: 'test',
+        seekkey: '',
+        seekscore: 0,
+        seekattx: 0,
+        inclusiveseek: true,
+        limit: 5,
+        desc: true,
+        sincetx: 0,
+        nowait: true
+      }
+      const zScanRes = await cl.zScan(zScanReq)
+
+      // test: add new item having the specified key
+      // and value
+      const setRes2 = await cl.set({ key: `${randNum * 2}`, value: `${randNum * 2}` })
+
+      // test: get current root info
+      const currentStateRes = await cl.currentState()
+
+      // test: safely add new item having the specified key
+      // and value
+      const verifiedSetReq = {
+        key: `${randNum+10}`,
+        value: `${randNum+10}`,
+      }
+      const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
+
+      // test: get current root info
+      const currentStateRes2 = await cl.currentState()
+
+      // test: safely add new item having the specified key
+      // and value
+      const verifiedSetReq2 = {
+        key: `${randNum + 11}`,
+        value: `${randNum + 11}`,
+      }
+      const verifiedSetRes2 = await cl.verifiedSet(verifiedSetReq2)
+
+      // test: safely add new item having the specified key
+      // and value
+      const verifiedSetReq3 = {
+        key: `${randNum + 12}`,
+        value: `${randNum + 12}`,
+      }
+      const verifiedSetRes3 = await cl.verifiedSet(verifiedSetReq3)
+
+      // test: safely get item by key
+      const verifiedGetReq = {
+        key: `${randNum + 12}`,
+      }
+      const verifiedGetRes = await cl.verifiedGet(verifiedGetReq)
+
+      t.end()
+    } catch (err) {
+      t.error(err)
+    }
   })
   
-  tap.test('batches', (t) => {
-    const options = {
-      address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
-      apikey: process.env.LEDGER_COMPLIANCE_API_KEY
-    }
-    setup(options, t, async function(cl) {
-      try {
-        const rand = '' + Math.floor(Math.random()
-          * Math.floor(100000))
-      
-        const batchSize = 20
+  tap.test('batches', async t => {
+    const cl = await ImmudbLcClient.getInstance(options)
 
-        // test: execute a batch insert
-        req = { keys : [] }
-        for (let i = 0; i < batchSize; i++) {
-          req.keys.push({ key: `${rand}-${i}`, value: `${rand}-${i}` })
-        }
-        res = await cl.setBatch(req)
-  
-        // test: execute a batch read
-        req = { keys : [] }
-        for (let i = 0; i < batchSize; i++) {
-          req.keys.push({ key: `${rand}-${i}` })
-        }
-        res = await cl.getBatch(req)
-  
-        t.end()
-      } catch (err) {
-        t.error(err)
+    try {
+      const randStr = `${Math.floor(Math.random() * Math.floor(100000))}`
+    
+      const batchSize = 20
+
+      // test: execute a batch insert
+      const setAllReq = { kvsList : [] }
+      for (let i = 0; i < batchSize; i++) {
+        setAllReq.kvsList.push({ key: `${randStr}-${i}`, value: `${randStr}-${i}` })
       }
-    })
+      const res = await cl.setAll(setAllReq)
+
+      // test: execute a batch read
+      const getAllReq = { keysList : [], sincetx: 0 }
+      for (let i = 0; i < batchSize; i++) {
+        getAllReq.keysList.push({ key: `${randStr}-${i}` })
+      }
+      const getAllRes = await cl.getAll(getAllReq)
+
+      t.end()
+    } catch (err) {
+      t.error(err)
+    }
   })
   
   

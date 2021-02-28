@@ -14,51 +14,43 @@ limitations under the License.
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
 
-try {
-  util.dotenvAlert()
-  
-  ImmudbLcClient({
-      address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
-      apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-      rootPath: './root.json',
-  }, main)
-} catch (err) {
-  console.error(err)
-}
-
-const rand = '' + Math.floor(Math.random()
+(async () => {
+  const rand = '' + Math.floor(Math.random()
   * Math.floor(100000))
 
-async function main(err, cl) {
-  if (err) {
-    return console.error(err)
-  }
-
   try {
+    util.dotenvAlert()
+    const cl = await ImmudbLcClient.getInstance({
+      host: (process.env.LEDGER_COMPLIANCE_ADDRESS as string) || '127.0.0.1',
+      port: (process.env.LEDGER_COMPLIANCE_PORT as string) || '3324',
+      apiKey: process.env.LEDGER_COMPLIANCE_API_KEY,
+      rootPath: './root.json',
+    })
+
     let res = null
 
     for (var i=0; i < 3; i++) {
-      res = await cl.safeSet({ key: `${rand}-${i}`, value: `${rand}-${i}` })
-      console.log('success: safeSet', res.index)
+      res = await cl.verifiedSet({ key: `${rand}-${i}`, value: `${rand}-${i}` })
+      console.log('success: verifiedSet', res?.id)
     }
     
-    // safeZAdd 1
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 5.0, key: `${rand}-1` })
-    console.log('success" safeZAdd', res.index)
+    // verifiedZAdd 1
+    res = await cl.verifiedZAdd({ set: `${rand}-set`, score: 5.0, key: `${rand}-1` })
+    console.log('success" verifiedZAdd', res?.id)
 
-    // safeZAdd 2
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 99.0, key: `${rand}-3` })
-    console.log('success" safeZAdd', res.index)
+    // verifiedZAdd 2
+    res = await cl.verifiedZAdd({ set: `${rand}-set`, score: 99.0, key: `${rand}-3` })
+    console.log('success" verifiedZAdd', res?.id)
 
-    // safeZAdd 3
-    res = await cl.safeZAdd({ set: `${rand}-set`, score: 1.0, key: `${rand}-2` })
-    console.log('success" safeZAdd', res.index)
+    // verifiedZAdd 3
+    res = await cl.verifiedZAdd({ set: `${rand}-set`, score: 1.0, key: `${rand}-2` })
+    console.log('success" verifiedZAdd', res?.id)
     
     // zScan
     res = await cl.zScan({ set: `${rand}-set` })
-    console.log('success" safeZAdd', res.index)    
+    console.log('success" zScan', res?.entriesList)    
 
   } catch (err) {
     console.error('ERROR, example:sorted_set', err)
   }
-}
+})()

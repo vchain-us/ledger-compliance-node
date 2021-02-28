@@ -5,7 +5,7 @@ import * as schemaTypes from './proto/schema_pb';
 import * as services from './proto/lc_grpc_pb';
 import * as empty from 'google-protobuf/google/protobuf/empty_pb';
 import { hashUint8Array, utf8Encode } from './util';
-import { DEFAULT_DATABASE } from './consts';
+import { DEFAULT_DATABASE, DEFAULT_ROOTPATH } from './consts';
 
 type ServerState = {
   state: schemaTypes.ImmutableState.AsObject
@@ -46,7 +46,7 @@ class State {
     public client: services.LcServiceClient
     public rootPath: string
 
-    constructor({ client, rootPath = 'root' }: StateConfig) {
+    constructor({ client, rootPath = DEFAULT_ROOTPATH }: StateConfig) {
         const handleExit = () => {
             this.exitHandler()
         }
