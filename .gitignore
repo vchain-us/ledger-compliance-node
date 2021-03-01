@@ -7,3 +7,5 @@ examples/root.json
 test/root.json
 .env
 .vscode/launch.json
+root
+dist/

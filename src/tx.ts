@@ -108,7 +108,7 @@ export const txFrom = (sTx: schemaTypes.Tx) => {
     }
 
     const sTxId = sTxMetadata.getId()
-    const sTxPrevalh = getAlh(sTxMetadata)
+    const sTxPrevalh = sTxMetadata.getPrevalh_asU8()
     const sTxTs = sTxMetadata.getTs()
     const sTxBlTxId = sTxMetadata.getBltxid()
     const sTxBlRoot = sTxMetadata.getBlroot_asU8()

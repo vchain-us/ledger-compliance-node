@@ -1,12 +1,13 @@
 import tap from 'tap'
 
+import * as schemaTypes from '../src/proto/schema_pb';
 import ImmudbLcClient from '../src/client'
 import { HistoryParameters, ZScanParameters } from '../src/types'
 
 const options = {
-  host: process.env.LEDGER_COMPLIANCE_ADDRESS,
-  port: process.env.LEDGER_COMPLIANCE_PORT,
-  apiKey: process.env.LEDGER_COMPLIANCE_API_KEY
+  host: process.env.LEDGER_COMPLIANCE_CERTIFIED_ADDRESS as string,
+  port: process.env.LEDGER_COMPLIANCE_CERTIFIED_PORT as string,
+  apiKey: process.env.LEDGER_COMPLIANCE_CERTIFIED_API_KEY as string
 }
 
 tap.test('operations', async t => {
@@ -117,16 +118,16 @@ tap.test('operations', async t => {
       const batchSize = 20
 
       // test: execute a batch insert
-      const setAllReq = { kvsList : [] }
+      const setAllReq: schemaTypes.SetRequest.AsObject = { kvsList : [] }
       for (let i = 0; i < batchSize; i++) {
         setAllReq.kvsList.push({ key: `${randStr}-${i}`, value: `${randStr}-${i}` })
       }
       const res = await cl.setAll(setAllReq)
 
       // test: execute a batch read
-      const getAllReq = { keysList : [], sincetx: 0 }
+      const getAllReq: schemaTypes.KeyListRequest.AsObject = { keysList : [], sincetx: 0 }
       for (let i = 0; i < batchSize; i++) {
-        getAllReq.keysList.push({ key: `${randStr}-${i}` })
+        getAllReq.keysList.push(`${randStr}-${i}`)
       }
       const getAllRes = await cl.getAll(getAllReq)
 

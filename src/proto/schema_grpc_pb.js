@@ -2,7 +2,7 @@
 
 // Original file comments:
 //
-// Copyright 2021 CodeNotary, Inc. All rights reserved.
+// Copyright 2019-2020 vChain, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,7 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+//
 'use strict';
 var grpc = require('@grpc/grpc-js');
 var schema_pb = require('./schema_pb.js');
@@ -472,9 +473,8 @@ function deserialize_immudb_schema_ZScanRequest(buffer_arg) {
 }
 
 
-// immudb gRPC
-// IMPORTANT: All Get and VerifiableGet functions return base64-encoded keys and values,
-// while all Set and VerifiableSet functions expect base64-encoded inputs.
+// immudb gRPC & REST service
+// IMPORTANT: All get and safeget functions return base64-encoded keys and values, while all set and safeset functions expect base64-encoded inputs.
 var ImmuServiceService = exports.ImmuServiceService = {
   listUsers: {
     path: '/immudb.schema.ImmuService/ListUsers',

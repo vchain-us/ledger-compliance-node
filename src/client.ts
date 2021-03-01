@@ -1,7 +1,7 @@
 require('dotenv').config()
 
-import grpc from '@grpc/grpc-js';
-import empty from 'google-protobuf/google/protobuf/empty_pb';
+import * as grpc from '@grpc/grpc-js';
+import * as empty from 'google-protobuf/google/protobuf/empty_pb';
 
 import * as schemaTypes from './proto/schema_pb';
 import services from './proto/lc_grpc_pb';
@@ -12,6 +12,7 @@ import * as types from './types'
 import State from './state'
 import * as interfaces from './interfaces';
 import { CLIENT_INIT_PREFIX, DEFAULT_DATABASE, DEFAULT_ROOTPATH } from './consts'
+import fs from 'fs';
 
 class ImmudbLcClient {
   public state: State;
@@ -32,7 +33,7 @@ class ImmudbLcClient {
     host = (process.env.LEDGER_COMPLIANCE_ADDRESS as string) || '127.0.0.1',
     port = (process.env.LEDGER_COMPLIANCE_PORT as string) || '3324',
     certs,
-    rootPath = DEFAULT_ROOTPATH
+    rootPath = DEFAULT_ROOTPATH,
   }: interfaces.Config) {
     // init insecure grpc auth
     this._auth = grpc.credentials.createInsecure();
@@ -86,7 +87,7 @@ class ImmudbLcClient {
   }
 
   async shutdown() {
-    // this.state.commit();
+    this.state.commit();
     process.exit(0);
   }
 
@@ -672,13 +673,17 @@ class ImmudbLcClient {
         } else {
           const verifiableTx = res.getTx()
 
+          console.log('serializeBinaryToWriter: ', res.serializeBinary())
+        
           if (verifiableTx === undefined) {
             console.error('Error getting verifiableTx from verifiedSet response')
 
             reject()
           } else {
             const tx = txFrom(verifiableTx)
+            console.log('tx: ', tx)
             const inclusionProof = proofTx(tx, util.prefixKey(uint8Key))
+            console.log('here 3')
 
             if (inclusionProof === undefined) {
               console.error('Error getting inclusionProof for verifiedSet')
