@@ -1,28 +1,40 @@
 {
   "name": "ledger-compliance-node",
-  "version": "1.1.7",
+  "version": "1.1.8",
   "description": "Node SDK for codenotary Ledger Compliance",
   "directories": {
-    "lib": "lib",
+    "src": "src",
     "test": "test"
   },
-  "main": "lib/client.js",
+  "main": "src/client.ts",
+  "types": "src/client.ts",
   "scripts": {
-    "test": "./test/test.sh"
+    "prepare": "npm run build",
+    "build": "tsc",
+    "test": "./test/test.sh",
+    "example": "cd examples/ && ts-node"
   },
-  "author": "vChain",
+  "author": "CodeNotary",
   "license": "ISC",
   "devDependencies": {
-    "grpc-tools": "1.10.0",
+    "@grpc/grpc-js": "^1.2.0",
+    "@types/btoa": "^1.2.3",
+    "@types/google-protobuf": "^3.7.4",
+    "@types/mocha": "^8.2.0",
+    "@types/node": "^14.14.28",
+    "@types/tap": "^14.10.3",
+    "grpc": "^1.24.5",
+    "grpc-tools": "^1.10.0",
+    "grpc_tools_node_protoc_ts": "^5.1.1",
     "protobufjs": "6.10.1",
-    "tap": "14.10.8"
+    "tap": "14.10.8",
+    "typescript": "^4.1.5"
   },
   "dependencies": {
     "async-lock": "^1.2.4",
     "btoa": "1.2.1",
     "dotenv": "^8.2.0",
-    "google-protobuf": "3.13.0",
-    "@grpc/grpc-js": "1.2.0"
+    "google-protobuf": "3.13.0"
   },
   "repository": {
     "type": "git",

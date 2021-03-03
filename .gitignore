@@ -1,4 +1,4 @@
-node_modules
+node_modules/
 package-lock.json
 root.json
 .nyc_output
@@ -7,3 +7,5 @@ examples/root.json
 test/root.json
 .env
 .vscode/launch.json
+root
+dist/
