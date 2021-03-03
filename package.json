@@ -1,13 +1,13 @@
 {
   "name": "ledger-compliance-node",
-  "version": "1.1.8",
+  "version": "1.1.9",
   "description": "Node SDK for codenotary Ledger Compliance",
   "directories": {
     "src": "src",
     "test": "test"
   },
-  "main": "src/client.ts",
-  "types": "src/client.ts",
+  "main": "dist/src/client.js",
+  "types": "dist/src/client.d.ts",
   "scripts": {
     "prepare": "npm run build",
     "build": "tsc",

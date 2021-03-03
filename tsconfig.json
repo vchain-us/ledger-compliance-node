@@ -8,7 +8,8 @@
         "forceConsistentCasingInFileNames": true, /* Disallow inconsistently-cased references to the same file. */
         "sourceMap": true,
         "declaration": true,
-        "outDir": "dist",
+        "outDir": "./dist",
+        "rootDir": "./src",
         // "allowJs": true,
         "baseUrl": "src",
         // "moduleResolution": "classic"
@@ -19,9 +20,11 @@
     ],
     "include": [
         "src/**/*",
-        "examples/**/*"
-, "types/parameters.ts"    ],
+        "examples/**/*",
+        "types/parameters.ts"
+    ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "examples"
     ]
 }
