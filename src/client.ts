@@ -12,7 +12,6 @@ import * as types from './types'
 import State from './state'
 import * as interfaces from './interfaces';
 import { CLIENT_INIT_PREFIX, DEFAULT_DATABASE, DEFAULT_ROOTPATH } from './consts'
-import fs from 'fs';
 
 class ImmudbLcClient {
   public state: State;
@@ -99,7 +98,7 @@ class ImmudbLcClient {
       kv.setKey(util.utf8Encode(key));
       kv.setValue(util.utf8Encode(value));
       req.setKvsList([kv]);
-
+      
       return new Promise((resolve, reject) =>
         this.client.set(req, this._metadata, async (err, res) => {
           if (err) {
@@ -261,7 +260,7 @@ class ImmudbLcClient {
   }
 
   async zScan(
-    { set, seekkey, seekscore, seekattx, inclusiveseek, limit, desc, sincetx, nowait }: types.ZScanParameters
+    { set, seekkey, seekscore, seekattx, inclusiveseek, limit, desc, sincetx, nowait, minscore, maxscore }: types.ZScanParameters
   ): Promise<schemaTypes.ZEntries.AsObject | undefined> {
     try {
       const req = new schemaTypes.ZScanRequest();
@@ -275,6 +274,22 @@ class ImmudbLcClient {
       req.setDesc(desc);
       req.setSincetx(sincetx);
       req.setNowait(nowait);
+
+      if (minscore) {
+        const minScore = new schemaTypes.Score()
+
+        minScore.setScore(minscore.score)
+
+        req.setMinscore(minScore)
+      }
+
+      if (maxscore) {
+        const maxScore = new schemaTypes.Score()
+
+        maxScore.setScore(maxscore.score)
+
+        req.setMaxscore(maxScore)
+      }
 
       return new Promise((resolve, reject) =>
         this.client.zScan(req, this._metadata, (err, res) => {
@@ -510,7 +525,7 @@ class ImmudbLcClient {
     }
   }
 
-  async setAll({ kvsList }: schemaTypes.SetRequest.AsObject): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async setAll({ kvsList }: types.SetAllParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.SetRequest();
       const kvls = kvsList.map(({ key, value }) => {
@@ -546,7 +561,7 @@ class ImmudbLcClient {
     }
   }
   
-  async execAll({ operationsList }: schemaTypes.ExecAllRequest.AsObject): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async execAll({ operationsList }: types.ExecAllParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.ExecAllRequest();
       const opl = operationsList.map(({ kv, zadd, ref }) => {
@@ -612,7 +627,7 @@ class ImmudbLcClient {
     }
   }
 
-  async getAll ({ keysList, sincetx }: schemaTypes.KeyListRequest.AsObject): Promise<schemaTypes.Entries.AsObject | undefined> {
+  async getAll ({ keysList, sincetx }: types.GetAllParameters): Promise<schemaTypes.Entries.AsObject | undefined> {
     try {
       const req = new schemaTypes.KeyListRequest();
 
@@ -646,7 +661,7 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedSet ({ key, value }: schemaTypes.KeyValue.AsObject): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async verifiedSet ({ key, value }: types.VerifiedSetParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const state = await this.state.get({ apiKey: this._apiKey, serverName: this._serverUUID, metadata: this._metadata })
       const txid = state.getTxid()
@@ -673,17 +688,13 @@ class ImmudbLcClient {
         } else {
           const verifiableTx = res.getTx()
 
-          console.log('serializeBinaryToWriter: ', res.serializeBinary())
-        
           if (verifiableTx === undefined) {
             console.error('Error getting verifiableTx from verifiedSet response')
 
             reject()
           } else {
             const tx = txFrom(verifiableTx)
-            console.log('tx: ', tx)
             const inclusionProof = proofTx(tx, util.prefixKey(uint8Key))
-            console.log('here 3')
 
             if (inclusionProof === undefined) {
               console.error('Error getting inclusionProof for verifiedSet')
@@ -755,7 +766,7 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedGet({ key, attx, sincetx }: interfaces.PartialBy<schemaTypes.KeyRequest.AsObject, 'sincetx' | 'attx'>): Promise<schemaTypes.Entry.AsObject | undefined> {
+  async verifiedGet({ key, attx, sincetx }: types.VerifiedGetParameters): Promise<schemaTypes.Entry.AsObject | undefined> {
     try {
       const state = await this.state.get({ apiKey: this._apiKey, serverName: this._serverUUID, metadata: this._metadata })
       const txid = state.getTxid()
@@ -895,10 +906,10 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedGetAt({ key, attx }: Omit<schemaTypes.KeyRequest.AsObject, 'sincetx'>) {
+  async verifiedGetAt({ key, attx }: types.VerifiedGetAtParameters) {
     return await this.verifiedGet({ key, attx })
   }
-  async verifiedGetSince({ key, sincetx }: Omit<schemaTypes.KeyRequest.AsObject, 'attx'>) {
+  async verifiedGetSince({ key, sincetx }: types.VerifiedGetSinceParameters) {
     return await this.verifiedGet({ key, sincetx })
   }
 }

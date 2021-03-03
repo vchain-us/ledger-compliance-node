@@ -52,8 +52,9 @@ const ImmudbLcClient = require('ledger-compliance-node')
 
 ## Quickstart
 
-Example can be found in the [example folder](/examples)
-
+Example can be found in the [example folder](/examples).
+Before running an example, please create a `.env` file inside the `examples/` directory (you can use `.env.example` file as a reference) containing correct `LEDGER_COMPLIANCE_ADDRESS`, `LEDGER_COMPLIANCE_PORT` and `LEDGER_COMPLIANCE_API_KEY` to the Ledger Compliance instance you are going to run an example against.
+To run an example, simply use the `npm run example` command followed by the example file name you want to run, e.g. `npm run example -- hello_world.ts`
 
 ### Creating a Client
 

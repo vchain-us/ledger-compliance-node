@@ -1,73 +1,66 @@
-// /*
-// Copyright 2019-2021 CodeNotary, Inc.
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-// 	http://www.apache.org/licenses/LICENSE-2.0
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-// */
+/*
+Copyright 2019-2021 CodeNotary, Inc.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+	http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
 
-// import ImmudbLcClient from "../src/client"
-// import util from "./src/util"
+import ImmudbLcClient from "../src/client"
+import util from "./src/util"
+import * as types from '../src/types'
 
-// try {
-//   util.dotenvAlert()
+util.dotenvAlert();
 
-//   ImmudbLcClient({
-//       address: `${process.env.LEDGER_COMPLIANCE_ADDRESS}:${process.env.LEDGER_COMPLIANCE_PORT}`,
-//       apikey: process.env.LEDGER_COMPLIANCE_API_KEY,
-//       rootPath: './root.json',
-//   }, main)
-// } catch (err) {
-//   console.error(err)
-// }
+(async () => {
+  const cl = await ImmudbLcClient.getInstance({
+    host: (process.env.LEDGER_COMPLIANCE_ADDRESS as string) || '127.0.0.1',
+    port: (process.env.LEDGER_COMPLIANCE_PORT as string) || '3324',
+    apiKey: process.env.LEDGER_COMPLIANCE_API_KEY as string,
+    rootPath: './root.json',
+  })
+  
+  const randNum = Math.floor(Math.random() * Math.floor(10));
+  const randStr = `rand${randNum}`;
 
-// const rand = '' + Math.floor(Math.random()
-//   * Math.floor(100000))
+  try {
+    // safe set 1
+    const verifiedSetReq: types.VerifiedSetParameters = { key: `${randStr}-1`, value: `${randStr}-1` }
+    const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
+    console.log('success: verifiedSet', verifiedSetRes?.id)
 
-// async function main(err, cl) {
-//   if (err) {
-//     return console.error(err)
-//   }
-
-//   try {
-//     let res = null
-
-//     // safe set 1
-//     req = { key: `${rand}-1`, value: `${rand}-1` }
-//     res = await cl.safeSet(req)
-//     console.log('success: safeSet', res && res.index)
-
-//     // safe set 2
-//     req = { key: `${rand}-2`, value: `${rand}-2` }
-//     res = await cl.safeSet(req)
-//     console.log('success: safeSet', res && res.index)
+    // safe set 2
+    const verifiedSetReq2: types.VerifiedSetParameters = { key: `${randStr}-2`, value: `${randStr}-2` }
+    const verifiedSetRes2 = await cl.verifiedSet(verifiedSetReq2)
+    console.log('success: verifiedSet', verifiedSetRes2?.id)
     
-//     // safe set 3
-//     req = { key: `${rand}-2`, value: `${rand}-3` }
-//     res = await cl.safeSet(req)    
-//     console.log('success: safeSet', res && res.index)
+    // safe set 3
+    const verifiedSetReq3: types.VerifiedSetParameters = { key: `${randStr}-2`, value: `${randStr}-3` }
+    const verifiedSetRes3 = await cl.verifiedSet(verifiedSetReq3)    
+    console.log('success: verifiedSet', verifiedSetRes3?.id)
 
-//     // scan
-//     req = { keyPrefix: rand }
-//     res = await cl.scan(req)
-//     console.log('success: scan', res)
+    // scan
+    const scanReq: types.ScanParameters = { prefix: randStr }
+    const scanRes = await cl.scan(scanReq)
+    console.log('success: scan', scanRes)
 
-//     // history
-//     req = {
-//         keyPrefix: `${rand}-2`,
-//         offset: 0,
-//         limit: 1,
-//         reverse: false
-//     }
-//     res = await cl.history(req)
-//     console.log('succes: history', res)    
+    // history
+    const historyReq: types.HistoryParameters = {
+      key: `${randStr}-2`,
+      offset: 0,
+      limit: 1,
+      desc: false,
+      sincetx: 0
+    }
+    const historyRes = await cl.history(historyReq)
+    console.log('success: history', historyRes)    
 
-//   } catch (err) {
-//     console.error('ERROR, example:scan_and_history', err)
-//   }
-// }
+  } catch (err) {
+    console.error('ERROR, example:scan_and_history', err)
+  }
+})()

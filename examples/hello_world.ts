@@ -13,48 +13,45 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
+import * as types from '../src/types'
+
+util.dotenvAlert();
 
 (async () => {
-  util.dotenvAlert()
-
-  const rand = '' + Math.floor(Math.random()
-    * Math.floor(100000))
-
-  // const rand = '29398'
-
+  const cl = await ImmudbLcClient.getInstance({
+    host: (process.env.LEDGER_COMPLIANCE_ADDRESS as string) || '127.0.0.1',
+    port: (process.env.LEDGER_COMPLIANCE_PORT as string) || '3324',
+    apiKey: process.env.LEDGER_COMPLIANCE_API_KEY as string,
+    rootPath: './root.json',
+  })
+  
+  const randNum = Math.floor(Math.random() * Math.floor(10));
+  const randStr = `rand${randNum}`;
   try {
-    const cl = await ImmudbLcClient.getInstance({
-      host: (process.env.LEDGER_COMPLIANCE_CERTIFIED_ADDRESS as string) || '127.0.0.1',
-      port: (process.env.LEDGER_COMPLIANCE_CERTIFIED_PORT as string) || '3324',
-      apiKey: process.env.LEDGER_COMPLIANCE_CERTIFIED_API_KEY as string,
-      rootPath: './root.json',
-    })
 
-    // // set
-    // const setReq = { key: `${rand}`, value: `${rand}` }
-    // const setRes = await cl.set(setReq)
-    // console.log('success: set', setRes?.id)
+    // set
+    const setReq: types.SetParameters = { key: randStr, value: randStr }
+    const setRes = await cl.set(setReq)
+    console.log('success: set', setRes?.id)
 
-    // // // get
-    // const getReq = { key: `${rand}` }
-    // const getRes = await cl.get(getReq)
-    // console.log('success: get', getRes)
-
-    console.log('rand: ', rand)
+    // // get
+    const getReq: types.GetParameters = { key: randStr }
+    const getRes = await cl.get(getReq)
+    console.log('success: get', getRes)
 
     // safe set
-    const verifiedSetReq = { key: `${rand}-safe`, value: `${rand}-safe` }
+    const verifiedSetReq: types.VerifiedSetParameters = { key: `${randStr}-safe`, value: `${randStr}-safe` }
     const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
-    console.log('success: safeSet', verifiedSetRes?.id)
+    console.log('success: verifiedSet', verifiedSetRes?.id)
 
-    // // safe get
-    // const verifiedGetReq = { key: `${rand}-safe` }
-    // const verifiedGetRes = await cl.verifiedGet(verifiedGetReq)
-    // console.log('success: safeGet', verifiedGetRes)
+    // safe get
+    const verifiedGetReq: types.VerifiedGetParameters = { key: `${randStr}-safe` }
+    const verifiedGetRes = await cl.verifiedGet(verifiedGetReq)
+    console.log('success: verifiedGet', verifiedGetRes)
 
-    // // get current root info
-    // const currentStateRes = await cl.currentState()
-    // console.log('success: currentRoot', currentStateRes)
+    // get current state info
+    const currentStateRes = await cl.currentState()
+    console.log('success: currentState', currentStateRes)
 
   } catch (err) {
     console.error('ERROR, example:hello_world', err)

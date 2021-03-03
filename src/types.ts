@@ -1,4 +1,5 @@
 import * as schemaTypes from './proto/schema_pb';
+import * as interfaces from './interfaces'
 
 export type SetReferenceParameters = {
     key: string
@@ -73,3 +74,11 @@ export type ZScanParameters = {
     sincetx: number,
     nowait: boolean,
 }
+export type SetAllParameters = schemaTypes.SetRequest.AsObject
+export type ExecAllParameters = schemaTypes.ExecAllRequest.AsObject
+export type GetAllParameters = schemaTypes.KeyListRequest.AsObject
+export type VerifiedSetParameters = schemaTypes.KeyValue.AsObject
+export type VerifiedGetParameters = interfaces.PartialBy<schemaTypes.KeyRequest.AsObject, 'sincetx' | 'attx'>
+export type VerifiedGetAtParameters = Omit<schemaTypes.KeyRequest.AsObject, 'sincetx'>
+export type VerifiedGetSinceParameters = Omit<schemaTypes.KeyRequest.AsObject, 'attx'>
+export type VerifiedZAddParameters = ZAddParameters
