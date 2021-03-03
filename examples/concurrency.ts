@@ -13,7 +13,7 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
-import * as types from '../src/types'
+import Parameters from '../types/parameters'
 
 util.dotenvAlert();
 
@@ -33,14 +33,14 @@ util.dotenvAlert();
       let indexes = []
       
       for (var i=0; i < n; i++) {
-        const verifiedSetReq: types.VerifiedSetParameters = { key: `${randStr}-${i}`, value: `${randStr}-${i}` }
+        const verifiedSetReq: Parameters.VerifiedSet = { key: `${randStr}-${i}`, value: `${randStr}-${i}` }
         const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
 
         if (verifiedSetRes) {
           indexes.push(verifiedSetRes.id)
         }
         
-        const verifiedGetReq: types.VerifiedGetParameters = { key: `${randStr}-${i}` }
+        const verifiedGetReq: Parameters.VerifiedGet = { key: `${randStr}-${i}` }
         const verifiedGetRes = await cl.verifiedGet(verifiedGetReq)
       }
       return indexes

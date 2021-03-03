@@ -13,7 +13,7 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
-import * as types from '../src/types'
+import Parameters from '../types/parameters'
 
 util.dotenvAlert();
 
@@ -30,7 +30,7 @@ util.dotenvAlert();
 
   try {
     for (var i=0; i < 3; i++) {
-      const verifiedSetReq: types.VerifiedSetParameters = {
+      const verifiedSetReq: Parameters.VerifiedSet = {
         key: `${randStr}-${i}`,
         value: `${randStr}-${i}`
       }
@@ -39,7 +39,7 @@ util.dotenvAlert();
     }
     
     // verifiedZAdd 1
-    const verifiedZAddReq: types.VerifiedZAddParameters = {
+    const verifiedZAddReq: Parameters.VerifiedZAdd = {
       set: `${randStr}-set`,
       score: 5.0,
       key: `${randStr}-0`
@@ -48,7 +48,7 @@ util.dotenvAlert();
     console.log('success: verifiedZAdd', verifiedZAddRes?.id)
 
     // verifiedZAdd 2
-    const verifiedZAddReq2: types.VerifiedZAddParameters = {
+    const verifiedZAddReq2: Parameters.VerifiedZAdd = {
       set: `${randStr}-set`,
       score: 99.0,
       key: `${randStr}-2`
@@ -62,7 +62,7 @@ util.dotenvAlert();
     }
 
     // verifiedZAdd 3
-    const verifiedZAddReq3: types.VerifiedZAddParameters = {
+    const verifiedZAddReq3: Parameters.VerifiedZAdd = {
       set: `${randStr}-set`,
       score: 1.0, 
       key: `${randStr}-1`
@@ -71,7 +71,7 @@ util.dotenvAlert();
     console.log('success: verifiedZAdd', verifiedZAddRes3?.id)
     
     // zScan
-    const zScanReq: types.ZScanParameters = {
+    const zScanReq: Parameters.ZScan = {
       set: `${randStr}-set`,
       seekkey: `${randStr}-2`,
       seekscore: 99.0,

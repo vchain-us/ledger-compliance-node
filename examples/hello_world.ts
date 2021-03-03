@@ -13,7 +13,7 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
-import * as types from '../src/types'
+import Parameters from '../types/parameters'
 
 util.dotenvAlert();
 
@@ -30,22 +30,22 @@ util.dotenvAlert();
   try {
 
     // set
-    const setReq: types.SetParameters = { key: randStr, value: randStr }
+    const setReq: Parameters.Set = { key: randStr, value: randStr }
     const setRes = await cl.set(setReq)
     console.log('success: set', setRes?.id)
 
     // // get
-    const getReq: types.GetParameters = { key: randStr }
+    const getReq: Parameters.Get = { key: randStr }
     const getRes = await cl.get(getReq)
     console.log('success: get', getRes)
 
     // safe set
-    const verifiedSetReq: types.VerifiedSetParameters = { key: `${randStr}-safe`, value: `${randStr}-safe` }
+    const verifiedSetReq: Parameters.VerifiedSet = { key: `${randStr}-safe`, value: `${randStr}-safe` }
     const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
     console.log('success: verifiedSet', verifiedSetRes?.id)
 
     // safe get
-    const verifiedGetReq: types.VerifiedGetParameters = { key: `${randStr}-safe` }
+    const verifiedGetReq: Parameters.VerifiedGet = { key: `${randStr}-safe` }
     const verifiedGetRes = await cl.verifiedGet(verifiedGetReq)
     console.log('success: verifiedGet', verifiedGetRes)
 

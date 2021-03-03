@@ -8,7 +8,7 @@ import services from './proto/lc_grpc_pb';
 import * as util from './util';
 import { proofTx, txFrom } from './tx'
 import { verifyInclusion, verifyDualProof } from './verification'
-import * as types from './types'
+import Parameters from '../types/parameters'
 import State from './state'
 import * as interfaces from './interfaces';
 import { CLIENT_INIT_PREFIX, DEFAULT_DATABASE, DEFAULT_ROOTPATH } from './consts'
@@ -90,7 +90,7 @@ class ImmudbLcClient {
     process.exit(0);
   }
 
-  async set({ key, value }: types.SetParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async set({ key, value }: Parameters.Set): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.SetRequest();
       const kv = new schemaTypes.KeyValue();
@@ -116,7 +116,7 @@ class ImmudbLcClient {
     }
   }
 
-  async get({ key }: types.GetParameters): Promise<schemaTypes.Entry.AsObject | undefined> {
+  async get({ key }: Parameters.Get): Promise<schemaTypes.Entry.AsObject | undefined> {
     try {
       const req = new schemaTypes.KeyRequest();
 
@@ -168,7 +168,7 @@ class ImmudbLcClient {
   }
 
   async scan(
-    { seekkey, prefix, desc, limit, sincetx, nowait }: types.ScanParameters = {}
+    { seekkey, prefix, desc, limit, sincetx, nowait }: Parameters.Scan = {}
   ): Promise<schemaTypes.Entries.AsObject | undefined> {
     try {
       const req = new schemaTypes.ScanRequest();
@@ -221,7 +221,7 @@ class ImmudbLcClient {
   }
 
   async history(
-    { key, offset, limit, desc, sincetx }: types.HistoryParameters
+    { key, offset, limit, desc, sincetx }: Parameters.History
   ): Promise<schemaTypes.Entries.AsObject | undefined> {
     try {
       const req = new schemaTypes.HistoryRequest();
@@ -260,7 +260,7 @@ class ImmudbLcClient {
   }
 
   async zScan(
-    { set, seekkey, seekscore, seekattx, inclusiveseek, limit, desc, sincetx, nowait, minscore, maxscore }: types.ZScanParameters
+    { set, seekkey, seekscore, seekattx, inclusiveseek, limit, desc, sincetx, nowait, minscore, maxscore }: Parameters.ZScan
   ): Promise<schemaTypes.ZEntries.AsObject | undefined> {
     try {
       const req = new schemaTypes.ZScanRequest();
@@ -356,14 +356,14 @@ class ImmudbLcClient {
   }
 
   async zAdd(
-    params: types.ZAddParameters
+    params: Parameters.ZAdd
   ): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     const reqParams = Object.assign({}, params, { attx: 0 })
 
     return this.zAddAt(reqParams)
   }
 
-  async zAddAt ({ set, score = 0, key, attx = 0 }: types.ZAddAtParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async zAddAt ({ set, score = 0, key, attx = 0 }: Parameters.ZAddAt): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.ZAddRequest();
 
@@ -396,13 +396,13 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedZAdd(params: types.ZAddParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async verifiedZAdd(params: Parameters.ZAdd): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     const reqParams = Object.assign({}, params, { attx: 0 })
 
     return await this.verifiedZAddAt(reqParams)
   }
 
-  async verifiedZAddAt({ set, score, key, attx }: types.ZAddAtParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async verifiedZAddAt({ set, score, key, attx }: Parameters.ZAddAt): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const state = await this.state.get({ serverName: this._serverUUID, apiKey: this._apiKey, metadata: this._metadata })
       const req = new schemaTypes.VerifiableZAddRequest()
@@ -525,7 +525,7 @@ class ImmudbLcClient {
     }
   }
 
-  async setAll({ kvsList }: types.SetAllParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async setAll({ kvsList }: Parameters.SetAll): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.SetRequest();
       const kvls = kvsList.map(({ key, value }) => {
@@ -561,7 +561,7 @@ class ImmudbLcClient {
     }
   }
   
-  async execAll({ operationsList }: types.ExecAllParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async execAll({ operationsList }: Parameters.ExecAll): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const req = new schemaTypes.ExecAllRequest();
       const opl = operationsList.map(({ kv, zadd, ref }) => {
@@ -627,7 +627,7 @@ class ImmudbLcClient {
     }
   }
 
-  async getAll ({ keysList, sincetx }: types.GetAllParameters): Promise<schemaTypes.Entries.AsObject | undefined> {
+  async getAll ({ keysList, sincetx }: Parameters.GetAll): Promise<schemaTypes.Entries.AsObject | undefined> {
     try {
       const req = new schemaTypes.KeyListRequest();
 
@@ -661,7 +661,7 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedSet ({ key, value }: types.VerifiedSetParameters): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
+  async verifiedSet ({ key, value }: Parameters.VerifiedSet): Promise<schemaTypes.TxMetadata.AsObject | undefined> {
     try {
       const state = await this.state.get({ apiKey: this._apiKey, serverName: this._serverUUID, metadata: this._metadata })
       const txid = state.getTxid()
@@ -766,7 +766,7 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedGet({ key, attx, sincetx }: types.VerifiedGetParameters): Promise<schemaTypes.Entry.AsObject | undefined> {
+  async verifiedGet({ key, attx, sincetx }: Parameters.VerifiedGet): Promise<schemaTypes.Entry.AsObject | undefined> {
     try {
       const state = await this.state.get({ apiKey: this._apiKey, serverName: this._serverUUID, metadata: this._metadata })
       const txid = state.getTxid()
@@ -906,10 +906,10 @@ class ImmudbLcClient {
     }
   }
 
-  async verifiedGetAt({ key, attx }: types.VerifiedGetAtParameters) {
+  async verifiedGetAt({ key, attx }: Parameters.VerifiedGetAt) {
     return await this.verifiedGet({ key, attx })
   }
-  async verifiedGetSince({ key, sincetx }: types.VerifiedGetSinceParameters) {
+  async verifiedGetSince({ key, sincetx }: Parameters.VerifiedGetSince) {
     return await this.verifiedGet({ key, sincetx })
   }
 }

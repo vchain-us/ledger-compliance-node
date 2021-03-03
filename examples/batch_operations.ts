@@ -13,7 +13,7 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
-import * as types from '../src/types'
+import Parameters from '../types/parameters'
 
 util.dotenvAlert();
  
@@ -32,7 +32,7 @@ util.dotenvAlert();
     const batchSize = 1
 
     // execute a batch insert
-    const setAllReq: types.SetAllParameters = { kvsList: [] }
+    const setAllReq: Parameters.SetAll = { kvsList: [] }
     for (let i = 0; i < batchSize; i++) {
       setAllReq.kvsList.push({
         key: `${randStr}-${i}`,
@@ -43,7 +43,7 @@ util.dotenvAlert();
     console.log(`success: setAll`, setAllRes)
 
     // execute a batch read
-    const getAllReq: types.GetAllParameters = { keysList: [], sincetx: 0 }
+    const getAllReq: Parameters.GetAll = { keysList: [], sincetx: 0 }
     for (let i = 0; i < batchSize; i++) {
       getAllReq.keysList.push(`${randStr}-${i}`)
     }

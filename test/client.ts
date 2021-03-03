@@ -2,7 +2,7 @@ import tap from 'tap'
 
 import * as schemaTypes from '../src/proto/schema_pb';
 import ImmudbLcClient from '../src/client'
-import { HistoryParameters, ZScanParameters } from '../src/types'
+import Parameters from '../types/parameters'
 
 const options = {
   host: process.env.LEDGER_COMPLIANCE_CERTIFIED_ADDRESS as string,
@@ -40,7 +40,7 @@ tap.test('operations', async t => {
 
     // history: fetch history for the item having the
     // specified key
-    const historyReq: HistoryParameters = {
+    const historyReq: Parameters.History = {
       key: randStr,
       offset: 10,
       limit: 5,
@@ -50,7 +50,7 @@ tap.test('operations', async t => {
     const historyRes = await cl.history(historyReq)
 
     // test: iterate over a sorted set
-    const zScanReq: ZScanParameters = {
+    const zScanReq: Parameters.ZScan = {
       set: 'test',
       seekkey: '',
       seekscore: 0,

@@ -20,7 +20,7 @@
     "include": [
         "src/**/*",
         "examples/**/*"
-    ],
+, "types/parameters.ts"    ],
     "exclude": [
         "node_modules"
     ]

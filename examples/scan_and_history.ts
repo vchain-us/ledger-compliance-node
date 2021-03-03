@@ -13,7 +13,7 @@ limitations under the License.
 
 import ImmudbLcClient from "../src/client"
 import util from "./src/util"
-import * as types from '../src/types'
+import Parameters from '../types/parameters'
 
 util.dotenvAlert();
 
@@ -30,27 +30,27 @@ util.dotenvAlert();
 
   try {
     // safe set 1
-    const verifiedSetReq: types.VerifiedSetParameters = { key: `${randStr}-1`, value: `${randStr}-1` }
+    const verifiedSetReq: Parameters.VerifiedSet = { key: `${randStr}-1`, value: `${randStr}-1` }
     const verifiedSetRes = await cl.verifiedSet(verifiedSetReq)
     console.log('success: verifiedSet', verifiedSetRes?.id)
 
     // safe set 2
-    const verifiedSetReq2: types.VerifiedSetParameters = { key: `${randStr}-2`, value: `${randStr}-2` }
+    const verifiedSetReq2: Parameters.VerifiedSet = { key: `${randStr}-2`, value: `${randStr}-2` }
     const verifiedSetRes2 = await cl.verifiedSet(verifiedSetReq2)
     console.log('success: verifiedSet', verifiedSetRes2?.id)
     
     // safe set 3
-    const verifiedSetReq3: types.VerifiedSetParameters = { key: `${randStr}-2`, value: `${randStr}-3` }
+    const verifiedSetReq3: Parameters.VerifiedSet = { key: `${randStr}-2`, value: `${randStr}-3` }
     const verifiedSetRes3 = await cl.verifiedSet(verifiedSetReq3)    
     console.log('success: verifiedSet', verifiedSetRes3?.id)
 
     // scan
-    const scanReq: types.ScanParameters = { prefix: randStr }
+    const scanReq: Parameters.Scan = { prefix: randStr }
     const scanRes = await cl.scan(scanReq)
     console.log('success: scan', scanRes)
 
     // history
-    const historyReq: types.HistoryParameters = {
+    const historyReq: Parameters.History = {
       key: `${randStr}-2`,
       offset: 0,
       limit: 1,
